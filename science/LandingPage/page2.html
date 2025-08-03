@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Profile – Ritobrata Barua</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #222;
+        background: #ffffff;
+        line-height: 1.6;
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+        padding-bottom: 80px;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle at center,
+          #ffffff 0%,
+          #f1f1f1 50%,
+          #e9e9e9 100%
+        );
+        animation: animateBackground 10s ease-in-out infinite alternate;
+        z-index: -1;
+      }
+
+      @keyframes animateBackground {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          transform: translate(10%, 10%) scale(1.1);
+        }
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 10%;
+        font-weight: bold;
+        animation: fadeInTop 0.8s ease-out;
+      }
+
+      nav a {
+        margin-left: 32px;
+        text-decoration: none;
+        color: black;
+        font-size: 14px;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: #6c2bd9;
+      }
+
+      .student-info {
+        padding: 40px 10%;
+        animation: fadeSlideUp 1s ease;
+      }
+
+      .student-info h1 {
+        font-size: 2rem;
+      }
+
+      .student-info p {
+        font-size: 1.2rem;
+        color: #666;
+      }
+
+      .student-graphic {
+        margin: 40px 10%;
+        background: #edf0f5;
+        height: 300px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #453c3c;
+        animation: zoomIn 0.8s ease;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 20px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .dropdown {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      select {
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        background: #f9f9f9;
+      }
+
+      .marks-card-container {
+        display: flex;
+        justify-content: center;
+      }
+
+      .table-card {
+        width: 80%;
+        padding: 20px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        margin-top: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+      }
+
+      th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+      }
+
+      tr:hover {
+        background-color: #f0f0f0;
+      }
+
+      .subjects {
+        display: flex;
+        justify-content: space-around;
+        padding: 60px 10%;
+        text-align: center;
+      }
+
+      .card {
+        width: 30%;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s ease;
+      }
+
+      .card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .shape {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 16px;
+        background: #eee;
+      }
+
+      .square {
+        border-radius: 4px;
+      }
+      .circle {
+        border-radius: 50%;
+      }
+      .triangle {
+        width: 0;
+        height: 0;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-bottom: 60px solid #eee;
+        background: none;
+        margin: 0 auto 16px;
+      }
+
+      .behavior {
+        padding: 40px 10%;
+        font-size: 1.3rem;
+        font-weight: bold;
+        animation: fadeIn 1.2s ease;
+      }
+
+      .behavior span {
+        display: block;
+        font-weight: normal;
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 10px;
+      }
+
+      .lecture-library {
+        padding: 40px 10%;
+        animation: fadeSlideUp 1s ease;
+      }
+
+      .lecture-library h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .lecture-library p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .lecture-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: all 0.6s ease;
+      }
+
+      .lecture-item.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .lecture-icon {
+        width: 50px;
+        height: 50px;
+        background: #eee;
+        margin-right: 20px;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 60px 10%;
+        background: #fff;
+        border-top: 1px solid #eee;
+        font-size: 14px;
+        animation: fadeInBottom 1s ease;
+      }
+
+      .notes-library {
+        padding: 40px 10%;
+        animation: fadeSlideUp 1s ease;
+      }
+      .notes-library h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+      .notes-library p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+      }
+      .notes-item {
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      .notes-item a {
+        margin-left: 10px;
+        color: #007aff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .notes-item a:hover {
+        color: #005ecc;
+      }
+
+      .footer-left {
+        font-size: 2rem;
+      }
+
+      .footer-right {
+        display: flex;
+        gap: 40px;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #f3f4f6;
+        padding: 40px 20px;
+        color: #1f2937;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #111827;
+      }
+
+      .subtitle {
+        color: #6b7280;
+        font-size: 15px;
+        margin-bottom: 24px;
+      }
+
+      label {
+        font-size: 16px;
+        font-weight: 500;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      select {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 16px;
+        border: 2px solid #d1d5db;
+        border-radius: 8px;
+        transition: border 0.3s;
+        margin-bottom: 20px;
+      }
+
+      select:focus {
+        border-color: #2563eb;
+        outline: none;
+      }
+
+      .chapter-list {
+        margin-top: 20px;
+      }
+
+      .chapter {
+        background: #f9fafb;
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03);
+        transition: transform 0.2s;
+      }
+
+      .chapter:hover {
+        transform: translateY(-2px);
+      }
+
+      .chapter-title {
+        font-weight: 600;
+      }
+
+      .chapter a {
+        color: #2563eb;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .chapter a:hover {
+        color: #1e40af;
+      }
+
+      .footer-right h4 {
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .footer-right a {
+        display: block;
+        color: #444;
+        text-decoration: none;
+        margin-bottom: 6px;
+        transition: color 0.3s;
+      }
+
+      .footer-right a:hover {
+        color: #6c2bd9;
+      }
+
+      @keyframes fadeSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInTop {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInBottom {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">EduLens<sup>©</sup></div>
+      <nav>
+        <a href="page1.html">Home</a>
+        <a href="page2.html">Students</a>
+        <a href="page3.html">About</a>
+        <a
+          href="#"
+          style="
+            background: black;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+          "
+          >Contact</a
+        >
+      </nav>
+    </header>
+
+    <section class="student-info">
+      <h1 id="studentName">Loading...</h1>
+      <p id="studentDetails">Fetching data...</p>
+      <p id="studentClass">Loading Class...</p>
+    </section>
+
+    <div class="student-graphic">⬛ ◯ △</div>
+
+    <div class="container">
+      <h1 style="text-align: center; margin-bottom: 20px">Student Marks</h1>
+      <div class="dropdown">
+        <label for="examSelect">Select Examination:</label>
+        <select id="examSelect" onchange="showTable()">
+          <option value="PA1">PA1</option>
+          <option value="HalfYearly">Half Yearly</option>
+          <option value="PA3">PA3</option>
+          <option value="Final">Final</option>
+        </select>
+      </div>
+
+      <div class="marks-card-container">
+        <div id="marksTableContainer" class="card-view table-card"></div>
+      </div>
+    </div>
+
+    <section class="subjects">
+      <div class="card" id="MathCard">
+        <div class="shape circle"></div>
+        <h3>Math DPPs</h3>
+      </div>
+      <div class="card" id="ScienceCard">
+        <div class="shape circle"></div>
+        <h3>Science DPPs</h3>
+      </div>
+      <div class="card" id="SSTCard">
+        <div class="shape circle"></div>
+        <h3>SST DPPs</h3>
+      </div>
+      <div class="card" id="HindiCard">
+        <div class="shape circle"></div>
+        <h3>Hindi DPPs</h3>
+      </div>
+      <div class="card" id="ComputerCard">
+        <div class="shape circle"></div>
+        <h3>Computer DPPs</h3>
+      </div>
+      <div class="card" id="EnglishCard">
+        <div class="shape circle"></div>
+        <h3>English DPPs</h3>
+      </div>
+    </section>
+
+    <section class="notes-library">
+      <div class="title">📘 Notes Library</div>
+      <div class="subtitle">Download subject-wise chapter notes below:</div>
+
+      <label for="subjectSelect">Select Subject:</label>
+      <select id="subjectSelect">
+        <option value="">--Choose--</option>
+        <option value="math" id="math-sub">Mathematics</option>
+        <option value="science" id="science-sub">Science</option>
+        <option value="english" id="english-sub">English</option>
+        <option value="hindi" id="hindi-sub">Hindi</option>
+        <option value="sst" id="sst-sub">Social Science</option>
+        <option value="computer" id="comp-sub">Computer</option>
+      </select>
+
+      <div id="chaptersContainer" class="chapter-list"></div>
+    </section>
+
+    <section class="behavior">
+      “Behavior score: 8/10 this month. Mostly focused, eager to participate,
+      and respectful of peers.”
+      <span>– AI Analytics</span>
+    </section>
+
+    <section class="lecture-library">
+      <h2>Lecture Library</h2>
+      <p>AI-curated lessons by subject and date.</p>
+      <div class="lecture-item">
+        <div class="lecture-icon square"></div>
+        <div>
+          <strong>Math — Linear Algebra</strong><br /><small
+            >June 15, 2025</small
+          >
+        </div>
+      </div>
+      <div class="lecture-item">
+        <div class="lecture-icon circle"></div>
+        <div>
+          <strong>Science — Photosynthesis</strong><br /><small
+            >June 12, 2025</small
+          >
+        </div>
+      </div>
+      <div class="lecture-item">
+        <div class="lecture-icon triangle"></div>
+        <div>
+          <strong>English — Essay Writing</strong><br /><small
+            >June 10, 2025</small
+          >
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-left">⬛ ◯ △</div>
+      <div class="footer-right">
+        <div>
+          <h4>Navigation</h4>
+          <a href="page1.html">Home</a>
+          <a href="page2.html">Students</a>
+          <a href="page3.html">About</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="#">Lecture Library</a>
+          <a href="#">Attendance</a>
+          <a href="#">Performance</a>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <a href="#">Contact</a>
+          <a href="#">Help Center</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      anime
+        .timeline({ easing: "easeOutExpo", duration: 1000 })
+        .add({ targets: "header", opacity: [0, 1], translateY: [-30, 0] })
+        .add(
+          { targets: ".student-info", opacity: [0, 1], translateY: [40, 0] },
+          "-=600"
+        )
+        .add(
+          { targets: ".notes-library", opacity: [0, 1], translateY: [40, 0] },
+          "-=600"
+        )
+        .add(
+          { targets: ".student-graphic", scale: [0.8, 1], opacity: [0, 1] },
+          "-=600"
+        )
+        .add(
+          { targets: ".behavior", opacity: [0, 1], translateY: [40, 0] },
+          "-=600"
+        )
+        .add(
+          { targets: ".lecture-library", opacity: [0, 1], translateY: [40, 0] },
+          "-=600"
+        );
+
+      const notesData = {
+        // For mathematics
+        math: [{ chapter: "Chapter 1 : Coordinate Geometry", url: "#" }, { chapter: "Chapter 2 : Linear equation", url: "#" }, { chapter: "Chapter 3 : Triangles", url: "#" }, { chapter: "Chapter 4 : Circles", url: "#" }, { chapter: "Chapter 5 : Mensuration", url: "#" }, { chapter: "Chapter 6 : Statistics & Probability", url: "#" }],
+
+        // For science
+        science: [{ chapter: "Chapter 1 : Cell", url: "#" }, { chapter: "Chapter 2 : Tissues", url: "#" }, { chapter: "Chapter 3 : Force and Laws of Motion", url: "#" }, { chapter: "Chapter 4 : Gravitation", url: "#" }, { chapter: "Chapter 5 : Atoms and Molecules", url: "#" }, { chapter: "Chapter 6 : Structure of an Atom", url: "#" }],
+
+        // For social science
+        sst: [{ chapter: "Chapter 1: The French Revolution", url: "#" }, { chapter: "Chapter 2 : Poverty as a resource", url: "#" }, { chapter: "Chapter 3 : Constitutional Design", url: "#" }, { chapter: "Chapter 4 : Physical features of India", url: "#" }],
+
+        // For computer
+        computer: [{ chapter: "Chapter 1: Introduction to Python Programming", url: "#" }, { chapter: "Chapter 2 : Advanced Python Programming", url: "#" }, { chapter: "Chapter 3 : Artificial Intelligence and Robotics", url: "#" }, { chapter: "Chapter 4 : Introduction to Machine Learning", url: "#" }],
+      };
+
+      const subjectSelect = document.getElementById("subjectSelect");
+      const chaptersContainer = document.getElementById("chaptersContainer");
+
+      subjectSelect.addEventListener("change", () => {
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get('uid');
+        const subject = subjectSelect.value;
+        chaptersContainer.innerHTML = "";
+
+        if (notesData[subject]) {
+          notesData[subject].forEach((item) => {
+            const div = document.createElement("div");
+            div.className = "chapter";
+            div.innerHTML = `<strong>${item.chapter}</strong> <a href="${item.url}">Show Notes</a>`;
+            chaptersContainer.appendChild(div);
+          });
+        }
+      });
+
+      let marksData = {
+        PA1: {},
+        HalfYearly: {},
+        PA3: {},
+        Final: {},
+      };
+
+      const cards = document.querySelectorAll(".card");
+      const lectures = document.querySelectorAll(".lecture-item");
+
+      function onScroll() {
+        cards.forEach((el) => {
+          if (
+            el.getBoundingClientRect().top < window.innerHeight * 0.85 &&
+            !el.classList.contains("visible")
+          ) {
+            el.classList.add("visible");
+          }
+        });
+
+        lectures.forEach((el) => {
+          if (
+            el.getBoundingClientRect().top < window.innerHeight * 0.85 &&
+            !el.classList.contains("visible")
+          ) {
+            el.classList.add("visible");
+          }
+        });
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const uid = urlParams.get("uid");
+      console.log("UID:", uid);
+
+      document.getElementById("studentDetails").textContent =
+        "Student's UID : " + uid;
+
+      async function getStudentMarksByUID() {
+        if (!uid) {
+          console.error("UID not found in URL");
+          return;
+        }
+
+        try {
+          const res = await fetch(
+            "https://alpha9-original.github.io/EduLens-Web-Data/student_marks_report.html"
+          );
+          const htmlText = await res.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(htmlText, "text/html");
+
+          const rows = doc.querySelectorAll("table tr");
+
+          let headers = [];
+          let studentData = null;
+
+          rows.forEach((row, index) => {
+            const cols = row.querySelectorAll("td, th");
+            const rowData = Array.from(cols).map((col) =>
+              col.textContent.trim()
+            );
+
+            if (index === 0) {
+              headers = rowData;
+            } else {
+              const rowUID = rowData[headers.indexOf("UID")];
+              if (rowUID === uid) {
+                studentData = rowData;
+              }
+            }
+          });
+
+          if (studentData) {
+            const result = {};
+            headers.forEach((key, i) => {
+              result[key] = studentData[i];
+            });
+
+            // Set name
+            document.getElementById("studentName").textContent = result["Name"];
+
+            // Convert result into marksData format
+            const exams = {
+              PA1: "PA1_",
+              HalfYearly: "HalfYearly_",
+              PA3: "PA3_",
+              Final: "Annual_", // For Final we map Annual
+            };
+
+            Object.entries(exams).forEach(([examName, prefix]) => {
+              marksData[examName] = {
+                English: parseInt(result[`${prefix}English`] || 0),
+                Math: parseInt(result[`${prefix}Maths`] || 0),
+                Science: parseInt(result[`${prefix}Science`] || 0),
+                SST: parseInt(result[`${prefix}SST`] || 0),
+                Computer: parseInt(result[`${prefix}Computer`] || 0),
+                "2nd Language": parseInt(result[`${prefix}2ndLanguage`] || 0),
+              };
+            });
+
+            showTable(); // Call after data is ready
+          } else {
+            console.warn("Student with UID not found:", uid);
+          }
+        } catch (err) {
+          console.error("Failed to fetch or parse the student report:", err);
+        }
+      }
+
+      function showTable() {
+        const exam = document.getElementById("examSelect").value;
+        const marks = marksData[exam];
+
+        let tableHTML = `
+      <table>
+        <thead><tr><th>Subject</th><th>Marks</th></tr></thead>
+        <tbody>
+    `;
+        for (let subject in marks) {
+          tableHTML += `<tr><td>${subject}</td><td>${marks[subject]}</td></tr>`;
+        }
+        tableHTML += `</tbody></table>`;
+        document.getElementById("marksTableContainer").innerHTML = tableHTML;
+
+        anime({
+          targets: "#marksTableContainer",
+          opacity: [0, 1],
+          translateY: [-20, 0],
+          duration: 600,
+          easing: "easeOutQuad",
+        });
+      }
+
+      getStudentMarksByUID();
+      window.addEventListener("scroll", onScroll);
+      onScroll();
+
+      fetch(
+        "https://alpha9-original.github.io/EduLens-Web-Data/student_class.html"
+      )
+        .then((response) => response.text())
+        .then((html) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+
+          const rows = doc.querySelectorAll("table tr");
+
+          rows.forEach((row, index) => {
+            const cells = row.querySelectorAll("td");
+            if (cells.length === 3) {
+              const name = cells[1].textContent.trim();
+              const studentClass = cells[2].textContent.trim();
+              console.log(
+                `Student ${index}: Name = ${name}, Class = ${studentClass}`
+              );
+            }
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching student class data:", error);
+        });
+
+      let std_class = "";
+
+      fetch(
+        "https://alpha9-original.github.io/EduLens-Web-Data/student_class.html"
+      )
+        .then((response) => response.text())
+        .then((html) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const rows = doc.querySelectorAll("table tr");
+
+          const students = [];
+
+          rows.forEach((row) => {
+            const cells = row.querySelectorAll("td");
+            if (cells.length === 3) {
+              const name = cells[1].textContent.trim();
+              const studentClass = cells[2].textContent.trim();
+              students.push({ name, studentClass });
+            }
+          });
+
+          const params = new URLSearchParams(window.location.search);
+          const studentName = params.get("class");
+
+          const student = students.find(
+            (s) => s.name.toLowerCase() === studentName.toLowerCase()
+          );
+
+          if (student) {
+            console.log(
+              `✅ Found student: ${student.name}, Class: ${student.studentClass}`
+            );
+
+            // 👉 Update the text content of the element with id="studentClass"
+            const classElement = document.getElementById("studentClass");
+            if (classElement) {
+              classElement.textContent =
+                "Student Class : " + student.studentClass;
+              std_class = student.studentClass;
+            } else {
+              console.warn(
+                "⚠️ Element with ID 'studentClass' not found in DOM."
+              );
+            }
+          } else {
+            console.warn(`❌ Student "${studentName}" not found.`);
+          }
+        })
+        .catch((error) => {
+          console.error("Fetch or parse error:", error);
+        });
+
+      document.getElementById("MathCard").addEventListener("click", () => {
+        const pa1_marks = marksData.PA1.Math;
+        const half_yearly_marks = marksData.HalfYearly.Math;
+        const pa3_marks = marksData.PA3.Math;
+        const final_marks = marksData.Final.Math;
+        const avg =
+          (pa1_marks + half_yearly_marks + pa3_marks + final_marks) / 4;
+        let level = "";
+        if (avg >= 90) {
+          level = "extemely hard";
+        } else if (avg >= 75) {
+          level = "very hard";
+        } else if (avg >= 60) {
+          level = "hard";
+        } else if (avg >= 40) {
+          level = "medium";
+        } else if (avg <= 50) {
+          level = "easy";
+        } else {
+          level = "easy";
+        }
+        window.location.href = `dpps_page.html?subject=Math&difficulty=${level}&class=${std_class}`;
+      });
+
+      document.getElementById("ScienceCard").addEventListener("click", () => {
+        const pa1_marks = marksData.PA1.Science;
+        const half_yearly_marks = marksData.HalfYearly.Science;
+        const pa3_marks = marksData.PA3.Science;
+        const final_marks = marksData.Final.Science;
+        const avg =
+          (pa1_marks + half_yearly_marks + pa3_marks + final_marks) / 4;
+        let level = "";
+        if (avg >= 90) {
+          level = "extemely hard";
+        } else if (avg >= 75) {
+          level = "very hard";
+        } else if (avg >= 60) {
+          level = "hard";
+        } else if (avg >= 40) {
+          level = "medium";
+        } else if (avg <= 50) {
+          level = "easy";
+        } else {
+          level = "easy";
+        }
+        window.location.href = `dpps_page.html?subject=Science&difficulty=${level}&class=${std_class}`;
+      });
+
+      document.getElementById("SSTCard").addEventListener("click", () => {
+        const pa1_marks = marksData.PA1.SST;
+        const half_yearly_marks = marksData.HalfYearly.SST;
+        const pa3_marks = marksData.PA3.SST;
+        const final_marks = marksData.Final.SST;
+        const avg =
+          (pa1_marks + half_yearly_marks + pa3_marks + final_marks) / 4;
+        let level = "";
+        if (avg >= 90) {
+          level = "extemely hard";
+        } else if (avg >= 75) {
+          level = "very hard";
+        } else if (avg >= 60) {
+          level = "hard";
+        } else if (avg >= 40) {
+          level = "medium";
+        } else if (avg <= 50) {
+          level = "easy";
+        } else {
+          level = "easy";
+        }
+        window.location.href = `dpps_page.html?subject=SST&&difficulty=${level}&class=${std_class}`;
+      });
+
+      document.getElementById("HindiCard").addEventListener("click", () => {
+        const pa1_marks = marksData.PA1.Hindi;
+        const half_yearly_marks = marksData.HalfYearly.Hindi;
+        const pa3_marks = marksData.PA3.Hindi;
+        const final_marks = marksData.Final.Hindi;
+        const avg =
+          (pa1_marks + half_yearly_marks + pa3_marks + final_marks) / 4;
+        let level = "";
+        if (avg >= 90) {
+          level = "extemely hard";
+        } else if (avg >= 75) {
+          level = "very hard";
+        } else if (avg >= 60) {
+          level = "hard";
+        } else if (avg >= 40) {
+          level = "medium";
+        } else if (avg <= 50) {
+          level = "easy";
+        } else {
+          level = "easy";
+        }
+        window.location.href = `dpps_page.html?subject=Hindi&difficulty=${level}&class=${std_class}`;
+      });
+
+      document.getElementById("ComputerCard").addEventListener("click", () => {
+        const pa1_marks = marksData.PA1.Computer;
+        const half_yearly_marks = marksData.HalfYearly.Computer;
+        const pa3_marks = marksData.PA3.Computer;
+        const final_marks = marksData.Final.Computer;
+        const avg =
+          (pa1_marks + half_yearly_marks + pa3_marks + final_marks) / 4;
+        let level = "";
+        if (avg >= 90) {
+          level = "extemely hard";
+        } else if (avg >= 75) {
+          level = "very hard";
+        } else if (avg >= 60) {
+          level = "hard";
+        } else if (avg >= 40) {
+          level = "medium";
+        } else if (avg <= 50) {
+          level = "easy";
+        } else {
+          level = "easy";
+        }
+        window.location.href = `dpps_page.html?subject=Computer&difficulty=${level}&class=${std_class}`;
+      });
+
+      document.getElementById("EnglishCard").addEventListener("click", () => {
+        const pa1_marks = marksData.PA1.English;
+        const half_yearly_marks = marksData.HalfYearly.English;
+        const pa3_marks = marksData.PA3.English;
+        const final_marks = marksData.Final.English;
+        const avg =
+          (pa1_marks + half_yearly_marks + pa3_marks + final_marks) / 4;
+        let level = "";
+        if (avg >= 90) {
+          level = "extemely hard";
+        } else if (avg >= 75) {
+          level = "very hard";
+        } else if (avg >= 60) {
+          level = "hard";
+        } else if (avg >= 40) {
+          level = "medium";
+        } else if (avg <= 50) {
+          level = "easy";
+        } else {
+          level = "easy";
+        }
+        window.location.href = `dpps_page.html?subject=English&difficulty=${level}&class=${std_class}`;
+      });
+    </script>
+  </body>
+</html>

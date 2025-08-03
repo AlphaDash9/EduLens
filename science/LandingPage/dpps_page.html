@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DPP Generator | EduLens</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* 🎨 Your styling remains unchanged - optimized for mobile + desktop */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background: #f0f2f5;
+        color: #111;
+        padding: 2rem;
+      }
+      h1 {
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: #1a1a1a;
+      }
+      .tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+      .tab {
+        margin: 0 1rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #007aff;
+        background: #fff;
+        border: 2px solid #007aff;
+        transition: all 0.3s ease;
+      }
+      .tab.active {
+        background: #007aff;
+        color: white;
+      }
+      .form-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+      .form-container input,
+      .form-container button {
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        border-radius: 14px;
+        border: 1px solid #ccc;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+      }
+      .form-container button {
+        background: #007aff;
+        color: white;
+        font-weight: bold;
+        border: none;
+      }
+      .form-container button:hover {
+        background: #005ecc;
+      }
+      .summary-info {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        color: #444;
+      }
+      .question-card {
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 1.8rem 2rem;
+        margin-bottom: 1.8rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .question-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+      }
+      .question-number {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1rem;
+      }
+      .question-text {
+        font-size: 1.05rem;
+        color: #444;
+      }
+      .answer-input {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0.7rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+      .submit-btn {
+        margin-top: 0.7rem;
+        padding: 0.6rem 1.2rem;
+        background: #28a745;
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .submit-btn:hover {
+        background: #218838;
+      }
+      .response-text {
+        margin-top: 0.6rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #222;
+      }
+      details summary {
+        cursor: pointer;
+        font-weight: 500;
+        margin-top: 1rem;
+        color: #007aff;
+      }
+      #historyContainer {
+        display: none;
+      }
+      .history-entry {
+        background: linear-gradient(135deg, #ffffff, #f8fcff);
+        padding: 1.3rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.2rem;
+        transition: transform 0.2s ease;
+      }
+      .history-entry:hover {
+        transform: translateY(-3px);
+      }
+      .history-entry strong {
+        display: block;
+        font-size: 1rem;
+        color: #222;
+        margin-bottom: 0.3rem;
+      }
+      .history-entry small {
+        color: #666;
+        font-size: 0.85rem;
+      }
+      .history-actions {
+        margin-top: 0.6rem;
+        display: flex;
+        gap: 0.7rem;
+      }
+      .history-actions button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .history-actions .resume {
+        background: #007aff;
+        color: white;
+      }
+      .history-actions .resume:hover {
+        background: #0056cc;
+      }
+      .history-actions .delete {
+        background: #dc3545;
+        color: white;
+      }
+      .history-actions .delete:hover {
+        background: #b52a38;
+      }
+      @media screen and (max-width: 600px) {
+        .form-container {
+          flex-direction: column;
+          align-items: center;
+        }
+        .form-container input,
+        .form-container button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔥 DPP Generator</h1>
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('generator')">📚 Generator</div>
+      <div class="tab" onclick="showTab('history')">📜 History</div>
+    </div>
+
+    <div class="summary-info" id="summaryInfo"></div>
+
+    <!-- Generator Tab -->
+    <div id="generatorContainer">
+      <div class="form-container">
+        <input type="text" id="topic" placeholder="Enter Topic" required />
+        <button onclick="generateDPP()">Generate DPP</button>
+      </div>
+      <div id="questionContainer"></div>
+    </div>
+
+    <!-- History Tab -->
+    <div id="historyContainer"><div id="historyList"></div></div>
+
+    <script>
+      const queryParams = (() => {
+        const params = {};
+        window.location.search
+          .substring(1)
+          .split("&")
+          .forEach((pair) => {
+            const [k, v] = pair.split("=");
+            params[decodeURIComponent(k)] = decodeURIComponent(v || "");
+          });
+        return params;
+      })();
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("summaryInfo").innerHTML = `
+          <strong>Class:</strong> ${queryParams.class || "?"} |
+          <strong>Subject:</strong> ${queryParams.subject || "?"} |
+          <strong>Difficulty:</strong> ${queryParams.difficulty || "?"} |
+          <strong>Questions:</strong> 10
+        `;
+        loadHistory();
+      });
+
+      async function generateDPP(topicParam, skipHistory = false) {
+        const topic = topicParam || document.getElementById("topic").value;
+        if (!topic) return alert("Please enter a topic.");
+        const classVal = queryParams.class || "9";
+        const difficulty = queryParams.difficulty || "Medium";
+        const subject = queryParams.subject || "Physics";
+        const count = 10;
+        const container = document.getElementById("questionContainer");
+        container.innerHTML = "<p>Loading questions from Gemini...</p>";
+
+        const prompt = `
+          Generate a set of ${count} DPP questions for Class ${classVal} in ${subject}.
+          The topic is "${topic}" with difficulty level "${difficulty}".
+          Provide diverse questions and at the end, write: 'Answer Key and Explanations:' followed by the answers.
+        `;
+
+        const apiKey = "AIzaSyCgYCSLZvMorx0n7jM0nnyq2CqANXJseLs"; // 🔥 Replace with your Gemini API key
+        const body = { contents: [{ parts: [{ text: prompt }] }] };
+
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            }
+          );
+          const data = await res.json();
+          const text =
+            data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "No response from Gemini.";
+
+          if (!skipHistory) {
+            saveToHistory({ topic, classVal, difficulty, subject, text });
+          }
+
+          const questions = extractQuestions(text).slice(0, count);
+          const answers = extractAnswers(text).slice(0, count);
+          container.innerHTML = "";
+
+          if (questions.length === 0) {
+            container.innerHTML =
+              "<p style='color:red'>⚠️ No questions found. Check API output.</p>";
+            return;
+          }
+
+          questions.forEach((q, i) => {
+            const card = document.createElement("div");
+            card.className = "question-card";
+            card.innerHTML = `
+              <div class="question-number">Q${i + 1}.</div>
+              <div class="question-text">${q}</div>
+              <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
+              <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
+              <div class="response-text" id="response-${i}"></div>
+              <details><summary>Show Answer</summary><p>${
+                answers[i] || "Answer not available"
+              }</p></details>
+            `;
+            container.appendChild(card);
+          });
+        } catch (err) {
+          console.error(err);
+          container.innerHTML =
+            "<p style='color:red'>❌ Error contacting Gemini API.</p>";
+        }
+      }
+
+      function extractQuestions(text) {
+        return text
+          .split("\n")
+          .filter((l) => /^\d+[\.\)]\s+/.test(l.trim()))
+          .map((l) => l.trim().replace(/^\d+[\.\)]\s+/, ""));
+      }
+
+      function extractAnswers(text) {
+        const idx = text.indexOf("Answer Key and Explanations:");
+        if (idx < 0) return [];
+        return text
+          .substring(idx)
+          .split("\n")
+          .filter((l) => /^\d+[\.\)]\s+/.test(l.trim()))
+          .map((l) => l.trim().replace(/^\d+[\.\**)]\s+/, ""));
+      }
+
+      async function submitAnswer(idx) {
+        const input = document.getElementById(`input-${idx}`);
+        const response = document.getElementById(`response-${idx}`);
+        const questionCards = document.querySelectorAll(".question-text");
+
+        if (!input.value.trim()) {
+          alert("Enter an answer.");
+          return;
+        }
+
+        const userAnswer = input.value.trim();
+        const question = questionCards[idx].innerText;
+
+        const prompt = `
+    Evaluate this answer.
+    Question: ${question}
+    Answer given by student: ${userAnswer}
+    Respond with "Correct" or "Incorrect" followed by a brief explanation if possible.
+  `;
+
+        const apiKey = "AIzaSyCgYCSLZvMorx0n7jM0nnyq2CqANXJseLs"; // 🔥 Your Gemini API key
+        const body = {
+          contents: [
+            {
+              parts: [
+                {
+                  text: prompt,
+                },
+              ],
+            },
+          ],
+        };
+
+        // Show loading while fetching result
+        response.textContent = "⏳ Checking your answer...";
+
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+            }
+          );
+
+          const data = await res.json();
+          const reply =
+            data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "⚠️ No response from Gemini.";
+
+          response.textContent = reply;
+        } catch (err) {
+          console.error(err);
+          response.textContent = "❌ Error checking answer.";
+        }
+      }
+
+      function saveToHistory(item) {
+        let hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
+        hist.unshift({ ...item, date: new Date().toLocaleString() });
+        localStorage.setItem("dppHistory", JSON.stringify(hist.slice(0, 20)));
+      }
+
+      function deleteHistory(i) {
+        let hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
+        hist.splice(i, 1);
+        localStorage.setItem("dppHistory", JSON.stringify(hist));
+        loadHistory();
+      }
+
+      function loadHistory() {
+        const hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
+        const list = document.getElementById("historyList");
+        list.innerHTML = "";
+        if (!hist.length) {
+          list.innerHTML = "<p>No history found.</p>";
+          return;
+        }
+        hist.forEach((item, i) => {
+          const div = document.createElement("div");
+          div.className = "history-entry";
+          div.innerHTML = `
+            <strong>${i + 1}. Topic: ${item.topic}</strong>
+            <div class="dpp-info">
+              <div><span>Class:</span> ${item.classVal}</div>
+              <div><span>Subject:</span> ${item.subject}</div>
+              <div><span>Difficulty:</span> ${item.difficulty}</div>
+            </div>
+            <small>${item.date}</small>
+            <div class="history-actions">
+              <button class="resume" onclick="generateDPP('${
+                item.topic
+              }', true)">🔄 Resume</button>
+              <button class="delete" onclick="deleteHistory(${i})">🗑️ Delete</button>
+            </div>
+          `;
+          list.appendChild(div);
+        });
+      }
+
+      function showTab(tab) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        if (tab === "history") {
+          document.getElementById("generatorContainer").style.display = "none";
+          document.getElementById("historyContainer").style.display = "block";
+          document.querySelector(".tab:nth-child(2)").classList.add("active");
+          loadHistory();
+        } else {
+          document.getElementById("generatorContainer").style.display = "block";
+          document.getElementById("historyContainer").style.display = "none";
+          document.querySelector(".tab:nth-child(1)").classList.add("active");
+        }
+      }
+    </script>
+  </body>
+</html>

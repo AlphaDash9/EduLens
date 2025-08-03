@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard | EduLens</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --primary: #6c2bd9;
+        --background: #f8f9fa;
+        --white: #ffffff;
+        --text-dark: #1f1f1f;
+        --text-muted: #6c757d;
+        --card-bg: rgba(255, 255, 255, 0.85);
+        --glass-blur: blur(10px);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        line-height: 1.6;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: var(--white);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .nav a {
+        color: var(--text-muted);
+        margin-left: 1.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav a:hover {
+        color: var(--primary);
+      }
+
+      header {
+        text-align: center;
+        padding: 3rem 1rem;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      header p {
+        font-size: 1rem;
+        color: var(--text-muted);
+      }
+
+      .buttons {
+        margin-top: 1.5rem;
+      }
+
+      .btn {
+        padding: 0.6rem 1.4rem;
+        margin: 0 0.5rem;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: var(--white);
+      }
+
+      .btn-primary:hover {
+        background: #0345b7;
+      }
+
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem;
+        max-width: 1100px;
+        margin: auto;
+      }
+
+      .icon-button {
+        background: var(--card-bg);
+        backdrop-filter: var(--glass-blur);
+        border-radius: 15px;
+        padding: 1.2rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+
+      .icon-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      .icon-button img {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 0.5rem;
+      }
+
+      .icon-button span {
+        display: block;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+
+      .analytics-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+        gap: 2rem;
+      }
+
+      .pair:nth-child(even) {
+        direction: rtl;
+      }
+
+      .pair:nth-child(even) .info {
+        text-align: left;
+        direction: ltr;
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        max-width: 100%;
+      }
+
+      .info h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #222;
+      }
+
+      .info p {
+        font-size: 1rem;
+        color: #555;
+      }
+
+      .box {
+        background: #1e293b;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      canvas {
+        width: 100% !important;
+        max-width: 600px;
+        background: #1e293b;
+        border-radius: 16px;
+      }
+
+      @media (max-width: 600px) {
+        .btn {
+          margin: 0.3rem 0;
+          width: 100%;
+        }
+        .buttons {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .pair {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .interactive-card {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .image-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .image-card:hover {
+        transform: scale(1.05);
+      }
+
+      .image-card img {
+        max-width: 200px;
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
+        transition: transform 0.3s ease;
+      }
+
+      .image-card:hover img {
+        transform: scale(1.1);
+      }
+
+      .caption {
+        color: var(--text-dark);
+        font-weight: 600;
+        font-size: 1rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <div>
+        <strong>EduLens<sup>®</sup></strong>
+      </div>
+      <div>
+        <a href="page1.html">Home</a>
+        <a href="page2.html">Student Details</a>
+        <a href="page3.html">About Us</a>
+      </div>
+    </div>
+
+    <header>
+      <div style="font-size: 1.5rem">&#11034;&#9650;&#9675;</div>
+      <h1>Student Dashboard</h1>
+      <p>AI-powered progress and insights tailored for you.</p>
+      <div class="buttons">
+        <button class="btn btn-primary" id="main_dashboard">
+          Back to Main Dashboard
+        </button>
+      </div>
+    </header>
+
+    <section class="icon-grid">
+      <div class="icon-button" data-tooltip="Visualize your academic progress">
+        <img
+          src="https://img.icons8.com/ios-filled/50/bar-chart.png"
+          alt="Performance Graph"
+        />
+        <span>Performance Graph</span>
+      </div>
+      <div class="icon-button" data-tooltip="See your weakest subject">
+        <img
+          src="https://img.icons8.com/ios-filled/50/graduation-cap.png"
+          alt="Weakest Subject"
+        />
+        <span>Weakest Subject</span>
+      </div>
+      <div class="icon-button" data-tooltip="View your attendance">
+        <img
+          src="https://img.icons8.com/ios-filled/50/time.png"
+          alt="Attendance"
+        />
+        <span>Attendance</span>
+      </div>
+      <div class="icon-button" data-tooltip="AI-recommended lectures">
+        <img
+          src="https://img.icons8.com/ios-filled/50/student-center.png"
+          alt="Suggested Lectures"
+        />
+        <span>Suggested Lectures</span>
+      </div>
+      <div class="icon-button" data-tooltip="Tips from AI">
+        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip" />
+        <span>AI Tip</span>
+      </div>
+    </section>
+
+    <section class="analytics-grid">
+      <div class="pair">
+        <div class="info">
+          <h2>Your performance</h2>
+          <p>Track your academic performance over time.</p>
+        </div>
+        <div class="box">
+          <canvas id="examChart"></canvas>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="pair">
+        <div class="box">
+          <canvas id="attendanceChart"></canvas>
+        </div>
+        <div class="info">
+          <h2>Attendance insights</h2>
+          <p>See your attendance with clear visuals.</p>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="pair">
+        <div class="info">
+          <h2>Tips by our AI</h2>
+          <p>AI-powered tips for your progress.</p>
+        </div>
+        <div class="box interactive-card">
+          <a href="#" class="image-card">
+            <img
+              src="https://leonardo.ai/wp-content/uploads/2024/07/ai-graphic-design-vector-art.webp"
+              alt="AI Tip Visual"
+            />
+            <span class="caption">Click for more AI tips!</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document
+        .getElementById("main_dashboard")
+        .addEventListener("click", function () {
+          window.location.href = "page1.html";
+        });
+
+      // Bar Chart for Performance
+      const ctx = document.getElementById("examChart").getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Math", "Science", "English", "History", "Geography"],
+          datasets: [
+            {
+              label: "Marks",
+              data: [85, 92, 78, 74, 88],
+              backgroundColor: [
+                "#f87171",
+                "#34d399",
+                "#60a5fa",
+                "#fbbf24",
+                "#a78bfa",
+              ],
+              borderColor: "#fff",
+              borderWidth: 1,
+              borderRadius: 12,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: "#f1f5f9" },
+              grid: { color: "#334155" },
+            },
+            x: {
+              ticks: { color: "#f1f5f9" },
+              grid: { display: false },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: { color: "#f1f5f9" },
+            },
+          },
+        },
+      });
+
+      // Line Chart for Attendance
+      const ctx2 = document.getElementById("attendanceChart").getContext("2d");
+      new Chart(ctx2, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [
+            {
+              label: "Attendance (%)",
+              data: [92, 85, 88, 95, 90, 93],
+              fill: false,
+              borderColor: "#34d399",
+              backgroundColor: "#34d399",
+              tension: 0.3,
+              pointRadius: 5,
+              pointBackgroundColor: "#34d399",
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { color: "#f1f5f9" },
+              grid: { color: "#334155" },
+            },
+            x: {
+              ticks: { color: "#f1f5f9" },
+              grid: { display: false },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: { color: "#f1f5f9" },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

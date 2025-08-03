@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — EduLens AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #fff;
+        color: #111;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 1s ease, transform 1s ease;
+      }
+
+      .fade-in.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 10%;
+        animation: slideDown 1s ease forwards;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      nav a {
+        margin: 0 12px;
+        text-decoration: none;
+        color: #444;
+        font-size: 15px;
+        position: relative;
+      }
+
+      nav a:hover {
+        color: #000;
+      }
+
+      .button {
+        background: #6a0dad;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(106, 13, 173, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .button:hover {
+        background: #580e9c;
+        transform: scale(1.05);
+      }
+
+      .hero {
+        text-align: center;
+        padding: 80px 10% 40px;
+      }
+
+      .hero h1 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .hero span {
+        font-weight: normal;
+        color: #888;
+      }
+
+      .hero .button {
+        margin-top: 24px;
+      }
+
+      .features {
+        display: flex;
+        justify-content: space-around;
+        padding: 60px 10%;
+        text-align: center;
+      }
+
+      .feature {
+        max-width: 250px;
+        transform: scale(0.9);
+        transition: all 0.3s ease;
+      }
+
+      .feature:hover {
+        transform: scale(1.05);
+      }
+
+      .feature .icon {
+        font-size: 2.5rem;
+        color: #ccc;
+        margin-bottom: 12px;
+      }
+
+      .feature h4 {
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        background: #fafafa;
+        padding: 40px 10%;
+        text-align: center;
+      }
+
+      .stat h3 {
+        font-size: 2rem;
+        color: #6a0dad;
+      }
+
+      .stat p {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .cta {
+        text-align: center;
+        padding: 60px 10%;
+      }
+
+      .cta h2 {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+      }
+
+      .cta p {
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 40px 10%;
+        font-size: 14px;
+        background: #fafafa;
+        border-top: 1px solid #eee;
+        flex-wrap: wrap;
+      }
+
+      .footer-column h4 {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .footer-column a {
+        display: block;
+        color: #666;
+        text-decoration: none;
+        margin-bottom: 6px;
+        transition: color 0.3s ease;
+      }
+
+      .footer-column a:hover {
+        color: #000;
+      }
+
+      .contributors {
+        padding: 60px 10%;
+        text-align: center;
+        background: #fff;
+      }
+
+      .contributors h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+      }
+
+      .contributor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+      }
+
+      .contributor {
+        background: #fafafa;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+      }
+
+      .contributor:hover {
+        transform: translateY(-5px);
+        background-color: #f0f8ff;
+      }
+
+      .contributor img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 15px;
+        border: 3px solid #6a0dad;
+      }
+
+      .contributor h4 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #6a0dad;
+      }
+
+      .contributor p {
+        margin-top: 5px;
+        color: #444;
+        font-size: 0.95rem;
+      }
+
+      .more-info {
+        margin-top: 10px;
+        display: none;
+        font-size: 0.9rem;
+        color: #333;
+      }
+
+      .contributor.active .more-info {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .features,
+        .stats {
+          flex-direction: column;
+          gap: 30px;
+        }
+
+        footer {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">EduLens®</div>
+      <nav>
+        <a href="page1.html">Home</a>
+        <a href="page2.html">Student Details</a>
+        <a href="page3.html">About</a>
+      </nav>
+      <a class="button" href="page2.html">View Student Dashboard</a>
+    </header>
+
+    <section class="hero fade-in">
+      <h1>
+        AI-Powered Learning for the Future.<br />
+        <span>Transforming classrooms with intelligence.</span>
+      </h1>
+      <a href="#contributors" class="button">Meet the Team</a>
+    </section>
+
+    <section class="features fade-in">
+      <div class="feature">
+        <div class="icon">📷</div>
+        <h4>AI Camera</h4>
+        <p>Record lectures and analyze classroom interactions live.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🧠</div>
+        <h4>Behavior Analytics</h4>
+        <p>Detect patterns to improve focus and engagement.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📊</div>
+        <h4>Performance Insights</h4>
+        <p>Visualize grades and suggest remedial strategies.</p>
+      </div>
+    </section>
+
+    <section class="stats fade-in">
+      <div class="stat">
+        <h3>95%</h3>
+        <p>Improved Focus</p>
+      </div>
+      <div class="stat">
+        <h3>99%</h3>
+        <p>Accurate Attendance</p>
+      </div>
+      <div class="stat">
+        <h3>120+</h3>
+        <p>Lectures Analyzed</p>
+      </div>
+    </section>
+
+    <section class="cta fade-in">
+      <h2>Experience AI-driven education.</h2>
+      <p>Ready to unlock insight from your classroom?</p>
+      <a class="button" href="page2.html">Get Started</a>
+    </section>
+
+    <section id="contributors" class="contributors fade-in">
+      <h2>Meet the Contributors</h2>
+      <div class="contributor-grid">
+        <div class="contributor" onclick="toggleInfo(this)">
+          <img src="Contributors_Photos\chirag-cropped.jpg" alt="suar" />
+          <h4>Chirag Chowdhury</h4>
+          <p>Lead Developer, AI Developer and Team Leader</p>
+          <div class="more-info">
+            Helped in making AI, websites and the core technologies of the project and the leader of the entire team.
+            MORE INFORMATION: Email- chiragchowdhury8@gmail.com
+                              Contact no: +91 6289326048
+          </div>
+        </div>
+
+        <div class="contributor" onclick="toggleInfo(this)">
+          <img src="Contributors_Photos\arinjay-cropped.jpg" alt="Suar" />
+          <h4>Arinjay Chakroborty</h4>
+          <p>Front-End Developer, UI Designer & Data Analyst</p>
+          <div class="more-info">
+            Crafts beautiful UIs, animation systems, and responsive designs with
+            HTML/CSS/JS and contributed in the making process of the website.
+            MORE INFORMATION: Email-  arinjay1208@gmail.com
+                              Contact no: +91 7003038611
+          </div>
+        </div>
+
+        <div class="contributor" onclick="toggleInfo(this)">
+          <img src="Contributors_Photos\ritobrata-cropped.jpg" alt="Suar" />
+          <h4>Ritobrata Barua</h4>
+          <p>Prompt Engineer, Research Analyst & Web Developer</p>
+          <div class="more-info">
+            Builds prompts to get the work done, analyzes trends, and optimizes
+            codes and also contributed in the making process of the Robust AI Systems.
+            He also has the skill to build Programs.
+            MORE INFORMATION: Email- iamironman1947@gmail.com
+                              Contact no: +91 9741068989
+          </div>
+        </div>
+
+        <div class="contributor" onclick="toggleInfo(this)">
+          <img src="Contributors_Photos/Ali-Sir.png" alt="bhagwaan" />
+          <h4>S. Ali Sir</h4>
+          <p>Main Mentor</p>
+          <div class="more-info">
+            Provided invaluable mentorship, guiding us through the project
+            development and helping us with his expertise in AI and education, and helped us with funding.
+            MORE INFORMATION: Email- aaa@gmail.com
+                              Contact no: +91 XXXXXXXXXX
+          </div>
+        </div>
+
+        <div class="contributor" onclick="toggleInfo(this)">
+          <img src="Contributors_Photos\suman-ex-mentor.png" alt="bhagwaan" />
+          <h4>Suman Debnath Sir</h4>
+          <p>Ex Mentor</p>
+          <div class="more-info">
+            Helped us with his guidance and mentorship throughout the project and also helped us by implementing this project in real classes.
+            MORE INFORMATION: Email- aaa@gmail.com
+                              Contact no: +91 XXXXXXXXXX
+          </div>
+        <div>
+      </div>
+    </section>
+
+    <footer class="fade-in">
+      <div class="footer-column">
+        <h4>Platform</h4>
+        <a href="#">Home</a>
+        <a href="#">Student Details</a>
+        <a href="#">About</a>
+      </div>
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <a href="#">Science Expo</a>
+        <a href="#">GitHub</a>
+        <a href="#">Video Library</a>
+      </div>
+      <div class="footer-column">
+        <h4>Contact</h4>
+        <a href="#">Support</a>
+        <a href="#">Email</a>
+        <a href="#">Login</a>
+      </div>
+    </footer>
+
+    <script>
+      function toggleInfo(element) {
+        element.classList.toggle("active");
+      }
+
+      // Fade-in on scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

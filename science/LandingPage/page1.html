@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduLens - AI Powered Education</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        color: #111;
+        background: white;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 10%;
+        font-weight: bold;
+        animation: fadeInTop 1s ease-out;
+      }
+
+      nav a {
+        margin-left: 32px;
+        text-decoration: none;
+        color: black;
+        font-size: 14px;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: #6c2bd9;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 80px 10%;
+        animation: fadeSlideUp 1s ease-out;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      .hero p {
+        margin: 16px 0;
+        font-size: 1.1rem;
+        color: #666;
+      }
+
+      /* ✅ Updated button styling */
+      .cta-button {
+        background: linear-gradient(135deg, #6c2bd9, #9d3de7);
+        color: white;
+        padding: 14px 28px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(108, 43, 217, 0.3);
+        margin-top: 20px;
+      }
+
+      .cta-button:hover {
+        transform: scale(1.05);
+        background: linear-gradient(135deg, #5b23b8, #842cd9);
+        box-shadow: 0 6px 16px rgba(108, 43, 217, 0.5);
+      }
+
+      .features {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        padding: 60px 10%;
+      }
+
+      .card {
+        width: 30%;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.8s ease;
+      }
+
+      .card.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .shape {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 16px;
+        background: #eee;
+      }
+
+      .square {
+        border-radius: 4px;
+      }
+
+      .circle {
+        border-radius: 50%;
+      }
+
+      .triangle {
+        width: 0;
+        height: 0;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-bottom: 60px solid #eee;
+        background: none;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        padding: 40px 10%;
+        background: #f9f9f9;
+        text-align: center;
+      }
+
+      .stats h2 {
+        font-size: 2rem;
+        color: black;
+        transition: 0.3s;
+      }
+
+      .cta {
+        text-align: center;
+        padding: 80px 10%;
+        animation: fadeIn 1s ease-in;
+      }
+
+      .cta h2 {
+        font-size: 1.8rem;
+      }
+
+      .cta p {
+        margin: 10px 0 20px;
+        color: #666;
+      }
+
+      .cta button {
+        background: black;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .cta button:hover {
+        background: #444;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 60px 10%;
+        background: #fff;
+        border-top: 1px solid #eee;
+        font-size: 14px;
+        animation: fadeInBottom 1s ease;
+      }
+
+      .footer-left {
+        font-size: 2rem;
+      }
+
+      .footer-right {
+        display: flex;
+        gap: 40px;
+      }
+
+      .footer-right h4 {
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .footer-right a {
+        display: block;
+        color: #444;
+        text-decoration: none;
+        margin-bottom: 6px;
+        transition: color 0.3s;
+      }
+
+      .footer-right a:hover {
+        color: #6c2bd9;
+      }
+
+      /* Animations */
+      @keyframes fadeSlideUp {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInTop {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInBottom {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">EduLens<sup>®</sup></div>
+      <nav>
+        <a href="page1.html">Home</a>
+        <a href="page2.html" id="goToPage2">Student Details</a>
+        <a href="page3.html">About Us</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>AI-Powered Learning for the Future.</h1>
+      <p>
+        Track behavior, boost performance, and personalize education using
+        <strong>artificial intelligence</strong>.
+      </p>
+      <a href="dashboard_page.html" class="cta-button" id="dashboard_page">View Student Dashboard</a>
+    </section>
+
+    <section class="features">
+      <div class="card">
+        <div class="shape square"></div>
+        <h3>AI Camera</h3>
+        <p>Record lectures and analyze classroom interactions live.</p>
+      </div>
+      <div class="card">
+        <div class="shape circle"></div>
+        <h3>Behavior Analytics</h3>
+        <p>Detect patterns to improve focus and engagement.</p>
+      </div>
+      <div class="card">
+        <div class="shape triangle"></div>
+        <h3>Performance Insights</h3>
+        <p>Visualize grades and suggest remedial strategies.</p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div>
+        <h2 data-target="95">0%</h2>
+        <p>Improved Focus</p>
+      </div>
+      <div>
+        <h2 data-target="99">0%</h2>
+        <p>Accurate Attendance</p>
+      </div>
+      <div>
+        <h2 data-target="120">0+</h2>
+        <p>Lectures Analyzed</p>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Experience AI-driven education.</h2>
+      <p>Ready to unlock insight from your classroom?</p>
+      <button class="cta-button">Get Started</button>
+    </section>
+
+    <footer>
+      <div class="footer-left">⧫◯△</div>
+      <div class="footer-right">
+        <div>
+          <h4>Platform</h4>
+          <a href="page1.html">Home</a>
+          <a href="page2.html">Student Details</a>
+          <a href="page3.html">About Us</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="#">Science Expo</a>
+          <a href="#">GitHub</a>
+          <a href="#">Video Library</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="#">Support</a>
+          <a href="#">Email</a>
+          <a href="#">Login</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const cards = document.querySelectorAll(".card");
+      const revealCards = () => {
+        const trigger = window.innerHeight * 0.85;
+        cards.forEach((card) => {
+          const top = card.getBoundingClientRect().top;
+          if (top < trigger) card.classList.add("visible");
+        });
+      };
+      window.addEventListener("scroll", revealCards);
+      revealCards();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const uid = urlParams.get("uid");
+      const name = urlParams.get("name");
+      const studentClass = urlParams.get("class");
+
+      console.log("UID:", uid);
+      console.log("Name:", name);
+      console.log("Class:", studentClass);
+
+      document
+        .getElementById("goToPage2")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const queryString = `?uid=${encodeURIComponent(
+            uid
+          )}&name=${encodeURIComponent(name)}&class=${encodeURIComponent(
+            studentClass
+          )}`;
+          window.location.href = `page2.html${queryString}`;
+        });
+
+        document
+          .getElementById("dashboard_page")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const queryString = new URLSearchParams(window.location.search);
+            const uid = queryString.get("uid");
+            window.location.href = `dashboard_page.html?uid=${uid}`;
+        });
+
+      const counters = document.querySelectorAll(".stats h2");
+      counters.forEach((counter) => {
+        const updateCount = () => {
+          const target = +counter.getAttribute("data-target");
+          let current = +counter.innerText.replace(/\D/g, "");
+          const inc = target / 60;
+
+          if (current < target) {
+            counter.innerText =
+              Math.ceil(current + inc) + (target === 120 ? "+" : "%");
+            setTimeout(updateCount, 30);
+          } else {
+            counter.innerText = target + (target === 120 ? "+" : "%");
+          }
+        };
+        updateCount();
+      });
+    </script>
+  </body>
+</html>
