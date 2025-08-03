@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: linear-gradient(-45deg, #6c2bd9, #9b59b6, #8e44ad, #6c2bd9);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .card {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      .logo .title {
+        font-size: 32px;
+        font-weight: 600;
+        color: #6c2bd9;
+        margin-bottom: 20px;
+      }
+
+      .welcome-text {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
+
+      label {
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+
+      input {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+
+      input:focus {
+        border-color: #6c2bd9;
+        box-shadow: 0 0 0 3px rgba(108, 43, 217, 0.2);
+        outline: none;
+      }
+
+      .signin-btn {
+        padding: 12px 20px;
+        background-color: #6c2bd9;
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .signin-btn:hover {
+        background-color: #5b23b8;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" id="loginCard">
+      <div class="logo">
+        <span class="title">EduLens</span>
+      </div>
+
+      <h2 class="welcome-text">Welcome to EduLens</h2>
+      <p class="subtitle">Please enter your details</p>
+
+      <form id="loginForm">
+        <label for="email">Student's UID</label>
+        <input
+          type="text"
+          required
+          id="email"
+          name="email"
+          placeholder="I234ICDSSD324"
+        />
+
+        <label for="password">Student's Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter a password"
+          required
+        />
+
+        <button type="submit" class="signin-btn">Sign In</button>
+      </form>
+    </div>
+
+    <script>
+      anime({
+        targets: "#loginCard",
+        opacity: [0, 1],
+        translateY: [50, 0],
+        duration: 1200,
+        easing: "easeOutExpo",
+        delay: 200,
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", async function (e) {
+        e.preventDefault(); // Stop form from submitting normally
+
+        const enteredUID = document.getElementById("email").value.trim();
+        const enteredPassword = document.getElementById("password").value.trim();
+
+        try {
+          const res = await fetch("https://alpha9-original.github.io/EduLens-Web-Data/index.html");
+          const htmlText = await res.text();
+
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(htmlText, "text/html");
+
+          const rows = doc.querySelectorAll("table tr");
+
+          let found = false;
+          let studentData = {};
+
+          rows.forEach((row, index) => {
+            if (index === 0) return;
+            const cols = row.querySelectorAll("td");
+            const uid = cols[2]?.textContent.trim();
+            const code = cols[3]?.textContent.trim();
+
+            if (uid === enteredUID && code === enteredPassword) {
+              found = true;
+              studentData = {
+                uid: uid,
+                name: cols[0]?.textContent.trim(),
+                class: cols[1]?.textContent.trim(),
+              };
+            }
+          });
+
+          if (found) {
+            const query = new URLSearchParams(studentData).toString();
+            window.location.href = `science/LandingPage/page1.html?${query}`;
+          } else {
+            alert("❌ UID or Password not found in the database.");
+          }
+        } catch (err) {
+          console.error("Error checking UID:", err);
+          alert("⚠️ Could not fetch student data. Please try again later.");
+        }
+      });
+
+    </script>
+  </body>
+</html>
