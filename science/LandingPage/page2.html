@@ -189,6 +189,23 @@
       .circle {
         border-radius: 50%;
       }
+
+      .math {
+        background-image: url("Contributors_Photos/math.jpg");
+      }
+
+      .science {
+        background-image: url("Contributors_Photos/science.jpg");
+      }
+
+      .sst {
+        background-image: url("Contributors_Photos/sst.jpeg");
+      }
+
+      .comp {
+        background-image: url("Contributors_Photos/computer.jpg");
+      }
+
       .triangle {
         width: 0;
         height: 0;
@@ -501,28 +518,20 @@
 
     <section class="subjects">
       <div class="card" id="MathCard">
-        <div class="shape circle"></div>
+        <div class="shape circle math"></div>
         <h3>Math DPPs</h3>
       </div>
       <div class="card" id="ScienceCard">
-        <div class="shape circle"></div>
+        <div class="shape circle science"></div>
         <h3>Science DPPs</h3>
       </div>
       <div class="card" id="SSTCard">
-        <div class="shape circle"></div>
+        <div class="shape circle sst"></div>
         <h3>SST DPPs</h3>
       </div>
-      <div class="card" id="HindiCard">
-        <div class="shape circle"></div>
-        <h3>Hindi DPPs</h3>
-      </div>
       <div class="card" id="ComputerCard">
-        <div class="shape circle"></div>
+        <div class="shape circle comp"></div>
         <h3>Computer DPPs</h3>
-      </div>
-      <div class="card" id="EnglishCard">
-        <div class="shape circle"></div>
-        <h3>English DPPs</h3>
       </div>
     </section>
 
@@ -535,10 +544,8 @@
         <option value="">--Choose--</option>
         <option value="math" id="math-sub">Mathematics</option>
         <option value="science" id="science-sub">Science</option>
-        <option value="english" id="english-sub">English</option>
-        <option value="hindi" id="hindi-sub">Hindi</option>
         <option value="sst" id="sst-sub">Social Science</option>
-        <option value="computer" id="comp-sub">Computer</option>
+        <option value="computer" id="comp-sub">Artificial Intelligence</option>
       </select>
 
       <div id="chaptersContainer" class="chapter-list"></div>
@@ -630,16 +637,16 @@
 
       const notesData = {
         // For mathematics
-        math: [{ chapter: "Chapter 1 : Coordinate Geometry", url: "#" }, { chapter: "Chapter 2 : Linear equation", url: "#" }, { chapter: "Chapter 3 : Triangles", url: "#" }, { chapter: "Chapter 4 : Circles", url: "#" }, { chapter: "Chapter 5 : Mensuration", url: "#" }, { chapter: "Chapter 6 : Statistics & Probability", url: "#" }],
+        math: [{ chapter: "Chapter 1 : Circles", url: "http://app.youlearn.ai/learn/content/mCWjZ5q58u8" }, { chapter: "Chapter 3 : Statistics", url: "https://app.youlearn.ai/learn/content/Ol-y2HO18Kg" }, { chapter: "Chapter 4 : Probability", url: "" }, { chapter: "Chapter 5 : Heron's Formula", url: "https://app.youlearn.ai/learn/content/xovtUr4TN6Y" }],
 
         // For science
-        science: [{ chapter: "Chapter 1 : Cell", url: "#" }, { chapter: "Chapter 2 : Tissues", url: "#" }, { chapter: "Chapter 3 : Force and Laws of Motion", url: "#" }, { chapter: "Chapter 4 : Gravitation", url: "#" }, { chapter: "Chapter 5 : Atoms and Molecules", url: "https://alphadash9.github.io/science_notes/atoms-and-molecules.html" }, { chapter: "Chapter 6 : Structure of an Atom", url: "#" }],
+        science: [{ chapter: "Chapter 1 : Work and Energy", url: "#" }, { chapter: "Chapter 2 : Sound", url: "#" }, { chapter: "Chapter 3 : Structure of an Atom", url: "#" }, { chapter: "Chapter 4 : Tissues", url: "#" }, { chapter: "Chapter 5 : Improvement in Food resources", url: "" }],
 
         // For social science
-        sst: [{ chapter: "Chapter 1: The French Revolution", url: "#" }, { chapter: "Chapter 2 : Poverty as a resource", url: "#" }, { chapter: "Chapter 3 : Constitutional Design", url: "#" }, { chapter: "Chapter 4 : Physical features of India", url: "#" }],
+        sst: [{ chapter: "Chapter 1: Socialism in Europe and the Russian Revolution", url: "https://app.youlearn.ai/learn/content/QbnzzPoFJ4iP3o5" }, { chapter: "Chapter 2 : Population", url: "https://app.youlearn.ai/learn/content/hVzQ8grS5wmt60g" }, { chapter: "Chapter 3 : Working of the institutions", url: "#" }, { chapter: "Chapter 4 : ", url: "#" }],
 
         // For computer
-        computer: [{ chapter: "Chapter 1: Introduction to Python Programming", url: "#" }, { chapter: "Chapter 2 : Advanced Python Programming", url: "#" }, { chapter: "Chapter 3 : Artificial Intelligence and Robotics", url: "#" }, { chapter: "Chapter 4 : Introduction to Machine Learning", url: "#" }],
+        computer: [{ chapter: "Chapter 1 : Python Programming", url: "#" }, { chapter: "Chapter 2 : Math for AI", url: "#" }, { chapter: "Chapter 3 : Data Literacy", url: "#" }, { chapter: "Chapter 4 : Entrepreneurship skills", url: "#" }],
       };
 
       const subjectSelect = document.getElementById("subjectSelect");
@@ -655,7 +662,7 @@
           notesData[subject].forEach((item) => {
             const div = document.createElement("div");
             div.className = "chapter";
-            div.innerHTML = `<strong>${item.chapter}</strong> <a href="${item.url}">Show Notes</a>`;
+            div.innerHTML = `<strong>${item.chapter}</strong> <a href="${item.url}">Show Lectures</a>`;
             chaptersContainer.appendChild(div);
           });
         }
