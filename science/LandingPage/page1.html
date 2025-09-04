@@ -202,6 +202,111 @@
         color: #6c2bd9;
       }
 
+      /* ✅ Responsive Design */
+      @media (max-width: 1024px) {
+        header {
+          padding: 16px 6%;
+        }
+
+        nav a {
+          margin-left: 20px;
+          font-size: 13px;
+        }
+
+        .hero {
+          padding: 60px 6%;
+        }
+
+        .features {
+          padding: 40px 6%;
+        }
+
+        .stats {
+          padding: 30px 6%;
+        }
+
+        footer {
+          padding: 40px 6%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        nav {
+          margin-top: 12px;
+        }
+
+        nav a {
+          margin: 0 12px;
+          font-size: 14px;
+        }
+
+        .hero h1 {
+          font-size: 1.6rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .features {
+          flex-direction: column;
+          gap: 32px;
+        }
+
+        .card {
+          width: 100%;
+        }
+
+        .stats {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        footer {
+          flex-direction: column;
+          text-align: center;
+          gap: 30px;
+        }
+
+        .footer-right {
+          flex-direction: column;
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero {
+          padding: 40px 4%;
+        }
+
+        .hero h1 {
+          font-size: 1.3rem;
+        }
+
+        .cta-button {
+          padding: 12px 20px;
+          font-size: 14px;
+        }
+
+        .stats h2 {
+          font-size: 1.5rem;
+        }
+
+        .cta h2 {
+          font-size: 1.4rem;
+        }
+
+        footer {
+          padding: 30px 4%;
+          font-size: 13px;
+        }
+      }
+
       /* Animations */
       @keyframes fadeSlideUp {
         0% {
@@ -262,7 +367,9 @@
         Track behavior, boost performance, and personalize education using
         <strong>artificial intelligence</strong>.
       </p>
-      <a href="dashboard_page.html" class="cta-button" id="dashboard_page">View Student Dashboard</a>
+      <a href="dashboard_page.html" class="cta-button" id="dashboard_page"
+        >View Student Dashboard</a
+      >
     </section>
 
     <section class="features">
@@ -362,14 +469,14 @@
           window.location.href = `page2.html${queryString}`;
         });
 
-        document
-          .getElementById("dashboard_page")
-          .addEventListener("click", function (e) {
-            e.preventDefault();
+      document
+        .getElementById("dashboard_page")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
 
-            const queryString = new URLSearchParams(window.location.search);
-            const uid = queryString.get("uid");
-            window.location.href = `dashboard_page.html?uid=${uid}`;
+          const queryString = new URLSearchParams(window.location.search);
+          const uid = queryString.get("uid");
+          window.location.href = `dashboard_page.html?uid=${uid}`;
         });
 
       const counters = document.querySelectorAll(".stats h2");
