@@ -112,6 +112,68 @@
         transform: translateY(-2px);
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
       }
+
+      /* Responsive Styles */
+      @media (max-width: 600px) {
+        .card {
+          padding: 20px;
+          border-radius: 15px;
+          max-width: 95%;
+        }
+
+        .logo .title {
+          font-size: 24px;
+          margin-bottom: 15px;
+        }
+
+        .welcome-text {
+          font-size: 20px;
+          margin-bottom: 8px;
+        }
+
+        .subtitle {
+          font-size: 14px;
+          margin-bottom: 20px;
+        }
+
+        label {
+          font-size: 14px;
+        }
+
+        input {
+          padding: 8px;
+          font-size: 13px;
+        }
+
+        .signin-btn {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .logo .title {
+          font-size: 20px;
+        }
+
+        .welcome-text {
+          font-size: 18px;
+        }
+
+        .subtitle {
+          font-size: 13px;
+        }
+
+        input {
+          font-size: 12px;
+          padding: 7px;
+        }
+
+        .signin-btn {
+          font-size: 13px;
+          padding: 8px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -167,9 +229,18 @@
             .value.trim();
 
           // Hardcoded Teacher Credentials Check
-          const teacherUIDs = ["Tigps@JhumurPaul", "Tigps@S_Ali", "Tigps@SumanDebnath"];
-          if (teacherUIDs.includes(enteredUID) && enteredPassword === "123456") {
-            alert("Invalid credentials for teacher login. Please use student credentials.");
+          const teacherUIDs = [
+            "Tigps@JhumurPaul",
+            "Tigps@S_Ali",
+            "Tigps@SumanDebnath",
+          ];
+          if (
+            teacherUIDs.includes(enteredUID) &&
+            enteredPassword === "123456"
+          ) {
+            alert(
+              "Invalid credentials for teacher login. Please use student credentials."
+            );
             return;
           }
 
