@@ -469,6 +469,166 @@
           opacity: 1;
         }
       }
+
+      /* 📱 Responsive Styles */
+      @media (max-width: 900px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 20px;
+        }
+
+        nav {
+          margin-top: 10px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+
+        nav a {
+          margin-left: 0;
+          font-size: 13px;
+        }
+
+        .student-info {
+          padding: 20px;
+        }
+
+        .student-info h1 {
+          font-size: 1.5rem;
+        }
+
+        .student-info p {
+          font-size: 1rem;
+        }
+
+        .student-graphic {
+          margin: 20px;
+          height: 200px;
+          font-size: 1.5rem;
+        }
+
+        .subjects {
+          flex-wrap: wrap;
+          justify-content: center;
+          padding: 20px;
+        }
+
+        .subjects .card {
+          width: 45%;
+          margin-bottom: 20px;
+        }
+
+        footer {
+          flex-direction: column;
+          text-align: center;
+          gap: 30px;
+          padding: 30px 20px;
+        }
+
+        .footer-right {
+          flex-direction: column;
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+          margin: 20px auto;
+        }
+
+        .table-card {
+          width: 100%;
+          padding: 15px;
+        }
+
+        table th,
+        table td {
+          padding: 10px;
+          font-size: 13px;
+        }
+
+        .lecture-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .lecture-icon {
+          margin-bottom: 8px;
+        }
+
+        .behavior {
+          font-size: 1rem;
+          padding: 20px;
+        }
+
+        .behavior span {
+          font-size: 0.8rem;
+        }
+
+        .notes-library {
+          padding: 20px;
+        }
+
+        .notes-library h2 {
+          font-size: 1.2rem;
+        }
+
+        .notes-library p {
+          font-size: 13px;
+        }
+
+        .chapter {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .chapter a {
+          margin-left: 0;
+        }
+
+        .subjects .card {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 400px) {
+        header {
+          padding: 15px;
+        }
+
+        nav {
+          gap: 10px;
+          font-size: 12px;
+        }
+
+        .student-info h1 {
+          font-size: 1.2rem;
+        }
+
+        .student-info p {
+          font-size: 0.9rem;
+        }
+
+        .student-graphic {
+          font-size: 1.2rem;
+          height: 150px;
+        }
+
+        .lecture-library h2,
+        .notes-library h2 {
+          font-size: 1rem;
+        }
+
+        .signin-btn,
+        select,
+        .chapter {
+          font-size: 12px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -636,14 +796,69 @@
 
       const notesData = {
         // For mathematics
-        math: [{ chapter: "Chapter 1 : Circles", url: "http://app.youlearn.ai/learn/content/mCWjZ5q58u8" }, { chapter: "Chapter 2 : Statistics", url: "https://app.youlearn.ai/learn/content/Ol-y2HO18Kg" }, { chapter: "Chapter 3 : Probability", url: "https://app.youlearn.ai/learn/content/dMC93CPijZBHqFy" }, { chapter: "Chapter 4 : Heron's Formula", url: "https://app.youlearn.ai/learn/content/xovtUr4TN6Y" }],
+        math: [
+          {
+            chapter: "Chapter 1 : Circles",
+            url: "http://app.youlearn.ai/learn/content/mCWjZ5q58u8",
+          },
+          {
+            chapter: "Chapter 2 : Statistics",
+            url: "https://app.youlearn.ai/learn/content/Ol-y2HO18Kg",
+          },
+          {
+            chapter: "Chapter 3 : Probability",
+            url: "https://app.youlearn.ai/learn/content/dMC93CPijZBHqFy",
+          },
+          {
+            chapter: "Chapter 4 : Heron's Formula",
+            url: "https://app.youlearn.ai/learn/content/xovtUr4TN6Y",
+          },
+        ],
 
         // For science
-        science: [{ chapter: "Chapter 1 : Work and Energy", url: "#" }, { chapter: "Chapter 2 : Sound", url: "#" }, { chapter: "Chapter 3 : Structure of an Atom", url: "#" }, { chapter: "Chapter 4 : Tissues", url: "#" }, { chapter: "Chapter 5 : Improvement in Food resources", url: "" }],
+        science: [
+          { 
+            chapter: "Chapter 1 : Work and Energy",
+            url: "https://app.youlearn.ai/learn/content/_MR1Dp8-F8w" 
+          },
+          { 
+            chapter: "Chapter 2 : Sound", 
+            url: "https://app.youlearn.ai/learn/content/Yw_Q_6xEH_c" 
+          },
+          {
+            chapter: "Chapter 3 : Structure of an Atom", 
+            url: "https://app.youlearn.ai/learn/content/0UqHoagKXts" 
+          },
+          { 
+            chapter: "Chapter 4 : Tissues",
+            url: "https://app.youlearn.ai/learn/content/RJsLw5cmbP8" 
+          },
+          { 
+            chapter: "Chapter 5 : Improvement in Food resources",
+            url: "https://app.youlearn.ai/learn/content/py7rvl_znRs" 
+          },
+        ],
 
         // For social science
-        sst: [{ chapter: "Chapter 1: Socialism in Europe and the Russian Revolution", url: "https://app.youlearn.ai/learn/content/QbnzzPoFJ4iP3o5" }, { chapter: "Chapter 2 : Population", url: "https://app.youlearn.ai/learn/content/hVzQ8grS5wmt60g" }, { chapter: "Chapter 3 : Working of the institutions", url: "https://app.youlearn.ai/learn/content/_i7D7hOmYTg" }, { chapter: "Chapter 4 : Food Security in India", url: "https://app.youlearn.ai/learn/content/h_DZ8wo2NDM" }],
-
+        sst: [
+          {
+            chapter:
+              "Chapter 1: Socialism in Europe and the Russian Revolution",
+            url: "https://app.youlearn.ai/learn/content/QbnzzPoFJ4iP3o5",
+          },
+          {
+            chapter: "Chapter 2 : Population",
+            url: "https://app.youlearn.ai/learn/content/hVzQ8grS5wmt60g",
+          },
+          {
+            chapter: "Chapter 3 : Working of the institutions",
+            url: "https://app.youlearn.ai/learn/content/_i7D7hOmYTg",
+          },
+          {
+            chapter: "Chapter 4 : Food Security in India",
+            url: "https://app.youlearn.ai/learn/content/h_DZ8wo2NDM",
+          },
+        ],
       };
 
       const subjectSelect = document.getElementById("subjectSelect");
@@ -651,7 +866,7 @@
 
       subjectSelect.addEventListener("change", () => {
         const params = new URLSearchParams(window.location.search);
-        const userId = params.get('uid');
+        const userId = params.get("uid");
         const subject = subjectSelect.value;
         chaptersContainer.innerHTML = "";
 

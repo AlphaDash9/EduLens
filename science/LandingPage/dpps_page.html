@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DPP Generator | EduLens</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
       * {
         box-sizing: border-box;
@@ -195,6 +198,146 @@
           width: 100%;
         }
       }
+
+      /* 📱 Responsive Enhancements */
+      @media (max-width: 900px) {
+        h1 {
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .tabs {
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .tab {
+          flex: 1 1 40%;
+          text-align: center;
+          margin: 0.3rem 0;
+        }
+
+        .form-container {
+          gap: 0.8rem;
+        }
+
+        .summary-info {
+          font-size: 0.95rem;
+          padding: 0 1rem;
+        }
+
+        .question-card {
+          padding: 1.5rem;
+        }
+
+        .question-text {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container button {
+          font-size: 0.95rem;
+          padding: 0.6rem 1rem;
+        }
+
+        .question-card {
+          padding: 1.2rem 1rem;
+        }
+
+        .question-number {
+          font-size: 1.1rem;
+        }
+
+        .question-text {
+          font-size: 0.95rem;
+        }
+
+        .answer-input {
+          font-size: 0.9rem;
+          padding: 0.6rem;
+        }
+
+        .submit-btn {
+          font-size: 0.9rem;
+          padding: 0.5rem 1rem;
+        }
+
+        .response-text {
+          font-size: 0.9rem;
+        }
+
+        .history-entry {
+          padding: 1rem;
+        }
+
+        .history-entry strong {
+          font-size: 0.95rem;
+        }
+
+        .history-actions {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .history-actions button {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 400px) {
+        h1 {
+          font-size: 1.3rem;
+        }
+
+        .tab {
+          flex: 1 1 100%;
+          padding: 0.4rem;
+          font-size: 0.9rem;
+        }
+
+        .summary-info {
+          font-size: 0.85rem;
+        }
+
+        .question-number {
+          font-size: 1rem;
+        }
+
+        .question-text {
+          font-size: 0.9rem;
+        }
+
+        .answer-input {
+          font-size: 0.85rem;
+        }
+
+        .submit-btn {
+          font-size: 0.85rem;
+        }
+
+        details summary {
+          font-size: 0.9rem;
+        }
+
+        .history-entry strong {
+          font-size: 0.9rem;
+        }
+
+        .history-entry small {
+          font-size: 0.75rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -205,8 +348,7 @@
     </div>
 
     <div class="summary-info" id="summaryInfo">
-      <strong>Class:</strong> ? |
-      <strong>Subject:</strong> ? |
+      <strong>Class:</strong> ? | <strong>Subject:</strong> ? |
       <strong>Difficulty:</strong> <span id="summaryDifficulty">?</span> |
       <strong>Questions:</strong> 10
     </div>
@@ -246,7 +388,9 @@
         document.getElementById("summaryInfo").innerHTML = `
           <strong>Class:</strong> ${queryParams.class || "?"} |
           <strong>Subject:</strong> ${queryParams.subject || "?"} |
-          <strong>Difficulty:</strong> <span id="summaryDifficulty">${queryParams.difficulty || "?"}</span> |
+          <strong>Difficulty:</strong> <span id="summaryDifficulty">${
+            queryParams.difficulty || "?"
+          }</span> |
           <strong>Questions:</strong> 10
         `;
         loadHistory();
@@ -259,7 +403,9 @@
         const classVal = queryParams.class || "9";
         const subject = queryParams.subject || "Physics";
 
-        const selectedDiff = document.getElementById("difficulty")?.value?.trim();
+        const selectedDiff = document
+          .getElementById("difficulty")
+          ?.value?.trim();
         const difficulty = selectedDiff || queryParams.difficulty || "Medium";
 
         const summaryDiff = document.getElementById("summaryDifficulty");
@@ -288,7 +434,9 @@
             }
           );
           const data = await res.json();
-          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response from Gemini.";
+          const text =
+            data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "No response from Gemini.";
 
           if (!skipHistory) {
             saveToHistory({ topic, classVal, difficulty, subject, text });
@@ -299,7 +447,8 @@
           container.innerHTML = "";
 
           if (questions.length === 0) {
-            container.innerHTML = "<p style='color:red'>⚠️ No questions found. Check API output.</p>";
+            container.innerHTML =
+              "<p style='color:red'>⚠️ No questions found. Check API output.</p>";
             return;
           }
 
@@ -312,13 +461,16 @@
               <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
               <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
               <div class="response-text" id="response-${i}"></div>
-              <details><summary>Show Answer</summary><p>${answers[i] || "Answer not available"}</p></details>
+              <details><summary>Show Answer</summary><p>${
+                answers[i] || "Answer not available"
+              }</p></details>
             `;
             container.appendChild(card);
           });
         } catch (err) {
           console.error(err);
-          container.innerHTML = "<p style='color:red'>❌ Error contacting Gemini API.</p>";
+          container.innerHTML =
+            "<p style='color:red'>❌ Error contacting Gemini API.</p>";
         }
       }
 
@@ -375,7 +527,9 @@
           );
 
           const data = await res.json();
-          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No response from Gemini.";
+          const reply =
+            data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "⚠️ No response from Gemini.";
           response.textContent = reply;
         } catch (err) {
           console.error(err);
@@ -416,7 +570,9 @@
             </div>
             <small>${item.date}</small>
             <div class="history-actions">
-              <button class="resume" onclick="generateDPP('${item.topic}', true)">🔄 Resume</button>
+              <button class="resume" onclick="generateDPP('${
+                item.topic
+              }', true)">🔄 Resume</button>
               <button class="delete" onclick="deleteHistory(${i})">🗑️ Delete</button>
             </div>
           `;
@@ -425,7 +581,9 @@
       }
 
       function showTab(tab) {
-        document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
         if (tab === "history") {
           document.getElementById("generatorContainer").style.display = "none";
           document.getElementById("historyContainer").style.display = "block";
@@ -440,5 +598,3 @@
     </script>
   </body>
 </html>
-
-
