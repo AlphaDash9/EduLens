@@ -467,47 +467,76 @@
         });
       });
 
-      // Line Chart for Attendance
-      const ctx2 = document.getElementById("attendanceChart").getContext("2d");
-      new Chart(ctx2, {
-        type: "line",
-        data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-          datasets: [
-            {
-              label: "Attendance (%)",
-              data: [92, 85, 88, 95, 90, 93],
-              fill: false,
-              borderColor: "#34d399",
-              backgroundColor: "#34d399",
-              tension: 0.3,
-              pointRadius: 5,
-              pointBackgroundColor: "#34d399",
-              borderWidth: 2,
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get("uid");
+
+      console.log("User ID from URL:", userId);
+
+      // 🔗 Replace with your deployed Apps Script URL
+      const ATTENDANCE_API =
+        "https://script.google.com/macros/s/AKfycbx12345/exec";
+
+      // Fetch Attendance from Google Apps Script
+      async function getAttendance(uid) {
+        const response = await fetch(ATTENDANCE_API + "?uid=" + uid);
+        return response.json();
+      }
+
+      getAttendance(userId).then((attendanceData) => {
+        console.log("Attendance Data:", attendanceData);
+
+        if (attendanceData.error) {
+          alert("Error: " + attendanceData.error);
+          return;
+        }
+
+        // Convert JSON into arrays
+        const labels = Object.keys(attendanceData).map((k) =>
+          k.replace(" Attendance", "")
+        );
+        const values = Object.values(attendanceData);
+
+        const ctx2 = document.getElementById("attendanceChart").getContext("2d");
+        new Chart(ctx2, {
+          type: "line",
+          data: {
+            labels: labels, // Jan, Feb, Mar, ...
+            datasets: [
+              {
+                label: "Attendance (days present)",
+                data: values,
+                fill: false,
+                borderColor: "#34d399",
+                backgroundColor: "#34d399",
+                tension: 0.3,
+                pointRadius: 5,
+                pointBackgroundColor: "#34d399",
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { color: "#f1f5f9" },
+                grid: { color: "#334155" },
+              },
+              x: {
+                ticks: { color: "#f1f5f9" },
+                grid: { display: false },
+              },
             },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              ticks: { color: "#f1f5f9" },
-              grid: { color: "#334155" },
-            },
-            x: {
-              ticks: { color: "#f1f5f9" },
-              grid: { display: false },
+            plugins: {
+              legend: {
+                labels: { color: "#f1f5f9" },
+              },
             },
           },
-          plugins: {
-            legend: {
-              labels: { color: "#f1f5f9" },
-            },
-          },
-        },
+        });
       });
     </script>
   </body>
 </html>
+
