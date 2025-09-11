@@ -15,16 +15,19 @@
         --card-bg: rgba(255, 255, 255, 0.85);
         --glass-blur: blur(10px);
       }
+
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
+
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: var(--text-dark);
         line-height: 1.6;
       }
+
       .nav {
         display: flex;
         justify-content: space-between;
@@ -36,6 +39,7 @@
         top: 0;
         z-index: 1000;
       }
+
       .nav a {
         color: var(--text-muted);
         margin-left: 1.5rem;
@@ -43,25 +47,31 @@
         font-weight: 500;
         transition: color 0.3s ease;
       }
+
       .nav a:hover {
         color: var(--primary);
       }
+
       header {
         text-align: center;
         padding: 3rem 1rem;
       }
+
       header h1 {
         font-size: 2.5rem;
         font-weight: 700;
         color: var(--primary);
       }
+
       header p {
         font-size: 1rem;
         color: var(--text-muted);
       }
+
       .buttons {
         margin-top: 1.5rem;
       }
+
       .btn {
         padding: 0.6rem 1.4rem;
         margin: 0 0.5rem;
@@ -71,13 +81,16 @@
         font-weight: 600;
         transition: all 0.3s ease;
       }
+
       .btn-primary {
         background: var(--primary);
         color: var(--white);
       }
+
       .btn-primary:hover {
         background: #0345b7;
       }
+
       .icon-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -86,6 +99,7 @@
         max-width: 1100px;
         margin: auto;
       }
+
       .icon-button {
         background: var(--card-bg);
         backdrop-filter: var(--glass-blur);
@@ -96,20 +110,24 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
       }
+
       .icon-button:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       }
+
       .icon-button img {
         width: 40px;
         height: 40px;
         margin-bottom: 0.5rem;
       }
+
       .icon-button span {
         display: block;
         font-weight: 600;
         color: var(--text-dark);
       }
+
       .analytics-grid {
         display: flex;
         flex-direction: column;
@@ -118,34 +136,41 @@
         max-width: 1200px;
         margin: auto;
       }
+
       .pair {
         display: grid;
         grid-template-columns: 1fr 1fr;
         align-items: start;
         gap: 2rem;
       }
+
       .pair:nth-child(even) {
         direction: rtl;
       }
+
       .pair:nth-child(even) .info {
         text-align: left;
         direction: ltr;
       }
+
       .info {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         max-width: 100%;
       }
+
       .info h2 {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
         color: #222;
       }
+
       .info p {
         font-size: 1rem;
         color: #555;
       }
+
       .box {
         background: #1e293b;
         border-radius: 16px;
@@ -155,12 +180,14 @@
         justify-content: center;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
+
       canvas {
         width: 100% !important;
         max-width: 600px;
         background: #1e293b;
         border-radius: 16px;
       }
+
       @media (max-width: 600px) {
         .btn {
           margin: 0.3rem 0;
@@ -175,10 +202,12 @@
           grid-template-columns: 1fr;
         }
       }
+
       .interactive-card {
         flex-direction: column;
         padding: 1rem;
       }
+
       .image-card {
         display: flex;
         flex-direction: column;
@@ -186,18 +215,22 @@
         text-decoration: none;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
+
       .image-card:hover {
         transform: scale(1.05);
       }
+
       .image-card img {
         max-width: 200px;
         border-radius: 12px;
         margin-bottom: 0.5rem;
         transition: transform 0.3s ease;
       }
+
       .image-card:hover img {
         transform: scale(1.1);
       }
+
       .caption {
         color: var(--text-dark);
         font-weight: 600;
@@ -230,24 +263,36 @@
     </header>
 
     <section class="icon-grid">
-      <div class="icon-button">
-        <img src="https://img.icons8.com/ios-filled/50/bar-chart.png" />
+      <div class="icon-button" data-tooltip="Visualize your academic progress">
+        <img
+          src="https://img.icons8.com/ios-filled/50/bar-chart.png"
+          alt="Performance Graph"
+        />
         <span>Performance Graph</span>
       </div>
-      <div class="icon-button">
-        <img src="https://img.icons8.com/ios-filled/50/graduation-cap.png" />
+      <div class="icon-button" data-tooltip="See your weakest subject">
+        <img
+          src="https://img.icons8.com/ios-filled/50/graduation-cap.png"
+          alt="Weakest Subject"
+        />
         <span>Weakest Subject</span>
       </div>
-      <div class="icon-button">
-        <img src="https://img.icons8.com/ios-filled/50/time.png" />
+      <div class="icon-button" data-tooltip="View your attendance">
+        <img
+          src="https://img.icons8.com/ios-filled/50/time.png"
+          alt="Attendance"
+        />
         <span>Attendance</span>
       </div>
-      <div class="icon-button">
-        <img src="https://img.icons8.com/ios-filled/50/student-center.png" />
+      <div class="icon-button" data-tooltip="AI-recommended lectures">
+        <img
+          src="https://img.icons8.com/ios-filled/50/student-center.png"
+          alt="Suggested Lectures"
+        />
         <span>Suggested Lectures</span>
       </div>
-      <div class="icon-button">
-        <img src="https://img.icons8.com/ios-filled/50/idea.png" />
+      <div class="icon-button" data-tooltip="Tips from AI">
+        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip" />
         <span>AI Tip</span>
       </div>
     </section>
@@ -297,8 +342,10 @@
     </section>
 
     <script>
-      document.getElementById("main_dashboard").addEventListener("click", function () {
-        window.location.href = "page1.html";
+      document
+        .getElementById("main_dashboard")
+        .addEventListener("click", function () {
+          window.location.href = "page1.html";
       });
 
       async function getAnnualMarksByUID(uid) {
@@ -420,76 +467,47 @@
         });
       });
 
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get("uid");
-
-      console.log("User ID from URL:", userId);
-
-      // 🔗 Replace with your deployed Apps Script URL
-      const ATTENDANCE_API =
-        "https://script.google.com/macros/s/AKfycbzz19lsQqd53Cd-YXz2KtLqhm3uE9wmfkrBQpz9zIW1oCslr0Gh7zLvYqI3mCCLbXHnxQ/exec";
-
-      // Fetch Attendance from Google Apps Script
-      async function getAttendance(uid) {
-        const response = await fetch(ATTENDANCE_API + "?uid=" + uid);
-        return response.json();
-      }
-
-      getAttendance(userId).then((attendanceData) => {
-        console.log("Attendance Data:", attendanceData);
-
-        if (attendanceData.error) {
-          alert("Error: " + attendanceData.error);
-          return;
-        }
-
-        // Convert JSON into arrays
-        const labels = Object.keys(attendanceData).map((k) =>
-          k.replace(" Attendance", "")
-        );
-        const values = Object.values(attendanceData);
-
-        const ctx2 = document.getElementById("attendanceChart").getContext("2d");
-        new Chart(ctx2, {
-          type: "line",
-          data: {
-            labels: labels, // Jan, Feb, Mar, ...
-            datasets: [
-              {
-                label: "Attendance (days present)",
-                data: values,
-                fill: false,
-                borderColor: "#34d399",
-                backgroundColor: "#34d399",
-                tension: 0.3,
-                pointRadius: 5,
-                pointBackgroundColor: "#34d399",
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: { color: "#f1f5f9" },
-                grid: { color: "#334155" },
-              },
-              x: {
-                ticks: { color: "#f1f5f9" },
-                grid: { display: false },
-              },
+      // Line Chart for Attendance
+      const ctx2 = document.getElementById("attendanceChart").getContext("2d");
+      new Chart(ctx2, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [
+            {
+              label: "Attendance (%)",
+              data: [92, 85, 88, 95, 90, 93],
+              fill: false,
+              borderColor: "#34d399",
+              backgroundColor: "#34d399",
+              tension: 0.3,
+              pointRadius: 5,
+              pointBackgroundColor: "#34d399",
+              borderWidth: 2,
             },
-            plugins: {
-              legend: {
-                labels: { color: "#f1f5f9" },
-              },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { color: "#f1f5f9" },
+              grid: { color: "#334155" },
+            },
+            x: {
+              ticks: { color: "#f1f5f9" },
+              grid: { display: false },
             },
           },
-        });
+          plugins: {
+            legend: {
+              labels: { color: "#f1f5f9" },
+            },
+          },
+        },
       });
     </script>
   </body>
 </html>
-
