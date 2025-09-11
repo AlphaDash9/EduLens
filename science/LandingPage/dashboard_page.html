@@ -263,43 +263,27 @@
     </header>
 
     <section class="icon-grid">
-      <div class="icon-button" data-tooltip="Visualize your academic progress">
-        <img
-          src="https://img.icons8.com/ios-filled/50/bar-chart.png"
-          alt="Performance Graph"
-        />
-        <span id="performance">Performance Graph</span>
+      <div class="icon-button" id="goPerformance">
+        <img src="https://img.icons8.com/ios-filled/50/bar-chart.png" alt="Performance Graph"/>
+        <span>Performance Graph</span>
       </div>
-      <div class="icon-button" data-tooltip="See your weakest subject">
-        <img
-          src="https://img.icons8.com/ios-filled/50/graduation-cap.png"
-          alt="Weakest Subject"
-        />
+      <div class="icon-button" id="goWeakest">
+        <img src="https://img.icons8.com/ios-filled/50/graduation-cap.png" alt="Weakest Subject"/>
         <span>Weakest Subject</span>
       </div>
-      <div class="icon-button" data-tooltip="View your attendance">
-        <img
-          src="https://img.icons8.com/ios-filled/50/time.png"
-          alt="Attendance"
-        />
+      <div class="icon-button" id="goAttendance">
+        <img src="https://img.icons8.com/ios-filled/50/time.png" alt="Attendance"/>
         <span>Attendance</span>
       </div>
-      <div class="icon-button" data-tooltip="AI-recommended lectures">
-        <img
-          src="https://img.icons8.com/ios-filled/50/student-center.png"
-          alt="Suggested Lectures"
-        />
-        <span>Suggested Lectures</span>
-      </div>
-      <div class="icon-button" data-tooltip="Tips from AI">
-        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip" />
+      <div class="icon-button" id="goAITips">
+        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip"/>
         <span>AI Tip</span>
       </div>
     </section>
 
     <section class="analytics-grid">
-      <div class="pair">
-        <div class="info" id="graph">
+      <div class="pair" id="sectionPerformance">
+        <div class="info">
           <h2>Your performance</h2>
           <p>Track your academic performance over time.</p>
           <br />
@@ -312,7 +296,7 @@
 
       <hr />
 
-      <div class="pair">
+      <div class="pair" id="sectionAttendance">
         <div class="box">
           <canvas id="attendanceChart"></canvas>
         </div>
@@ -324,17 +308,14 @@
 
       <hr />
 
-      <div class="pair">
+      <div class="pair" id="sectionAITips">
         <div class="info">
           <h2>Tips by our AI</h2>
           <p>AI-powered tips for your progress.</p>
         </div>
         <div class="box interactive-card">
           <a href="#" class="image-card">
-            <img
-              src="https://leonardo.ai/wp-content/uploads/2024/07/ai-graphic-design-vector-art.webp"
-              alt="AI Tip Visual"
-            />
+            <img src="https://leonardo.ai/wp-content/uploads/2024/07/ai-graphic-design-vector-art.webp" alt="AI Tip Visual"/>
             <span class="caption">Click for more AI tips!</span>
           </a>
         </div>
@@ -342,10 +323,25 @@
     </section>
 
     <script>
-      document
-        .getElementById("main_dashboard")
-        .addEventListener("click", function () {
-          window.location.href = "page1.html";
+      document.getElementById("main_dashboard").addEventListener("click", function () {
+        window.location.href = "page1.html";
+      });
+
+      // Scroll handlers
+      document.getElementById("goPerformance").addEventListener("click", () => {
+        document.getElementById("sectionPerformance").scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.getElementById("goWeakest").addEventListener("click", () => {
+        document.getElementById("sectionPerformance").scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.getElementById("goAttendance").addEventListener("click", () => {
+        document.getElementById("sectionAttendance").scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.getElementById("goAITips").addEventListener("click", () => {
+        document.getElementById("sectionAITips").scrollIntoView({ behavior: "smooth" });
       });
 
       async function getAnnualMarksByUID(uid) {
@@ -467,7 +463,7 @@
         });
       });
 
-      // Line Chart for Attendance
+      // Example charts (kept same as your original)
       const ctx2 = document.getElementById("attendanceChart").getContext("2d");
       new Chart(ctx2, {
         type: "line",
@@ -502,19 +498,10 @@
             },
           },
           plugins: {
-            legend: {
-              labels: { color: "#f1f5f9" },
-            },
+            legend: { labels: { color: "#f1f5f9" } },
           },
         },
-      });
-
-      document.getElementById("performance").addEventListener("click", function(){
-        document.getElementById("graph").scrollIntoView({ 
-          behavior: "smooth" 
-        });
       });
     </script>
   </body>
 </html>
-
