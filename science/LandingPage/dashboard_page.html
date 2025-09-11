@@ -15,19 +15,16 @@
         --card-bg: rgba(255, 255, 255, 0.85);
         --glass-blur: blur(10px);
       }
-
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
-
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: var(--text-dark);
         line-height: 1.6;
       }
-
       .nav {
         display: flex;
         justify-content: space-between;
@@ -39,7 +36,6 @@
         top: 0;
         z-index: 1000;
       }
-
       .nav a {
         color: var(--text-muted);
         margin-left: 1.5rem;
@@ -47,31 +43,25 @@
         font-weight: 500;
         transition: color 0.3s ease;
       }
-
       .nav a:hover {
         color: var(--primary);
       }
-
       header {
         text-align: center;
         padding: 3rem 1rem;
       }
-
       header h1 {
         font-size: 2.5rem;
         font-weight: 700;
         color: var(--primary);
       }
-
       header p {
         font-size: 1rem;
         color: var(--text-muted);
       }
-
       .buttons {
         margin-top: 1.5rem;
       }
-
       .btn {
         padding: 0.6rem 1.4rem;
         margin: 0 0.5rem;
@@ -81,16 +71,13 @@
         font-weight: 600;
         transition: all 0.3s ease;
       }
-
       .btn-primary {
         background: var(--primary);
         color: var(--white);
       }
-
       .btn-primary:hover {
         background: #0345b7;
       }
-
       .icon-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -99,7 +86,6 @@
         max-width: 1100px;
         margin: auto;
       }
-
       .icon-button {
         background: var(--card-bg);
         backdrop-filter: var(--glass-blur);
@@ -110,24 +96,20 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
       }
-
       .icon-button:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       }
-
       .icon-button img {
         width: 40px;
         height: 40px;
         margin-bottom: 0.5rem;
       }
-
       .icon-button span {
         display: block;
         font-weight: 600;
         color: var(--text-dark);
       }
-
       .analytics-grid {
         display: flex;
         flex-direction: column;
@@ -136,41 +118,34 @@
         max-width: 1200px;
         margin: auto;
       }
-
       .pair {
         display: grid;
         grid-template-columns: 1fr 1fr;
         align-items: start;
         gap: 2rem;
       }
-
       .pair:nth-child(even) {
         direction: rtl;
       }
-
       .pair:nth-child(even) .info {
         text-align: left;
         direction: ltr;
       }
-
       .info {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         max-width: 100%;
       }
-
       .info h2 {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
         color: #222;
       }
-
       .info p {
         font-size: 1rem;
         color: #555;
       }
-
       .box {
         background: #1e293b;
         border-radius: 16px;
@@ -180,14 +155,12 @@
         justify-content: center;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
-
       canvas {
         width: 100% !important;
         max-width: 600px;
         background: #1e293b;
         border-radius: 16px;
       }
-
       @media (max-width: 600px) {
         .btn {
           margin: 0.3rem 0;
@@ -202,12 +175,10 @@
           grid-template-columns: 1fr;
         }
       }
-
       .interactive-card {
         flex-direction: column;
         padding: 1rem;
       }
-
       .image-card {
         display: flex;
         flex-direction: column;
@@ -215,22 +186,18 @@
         text-decoration: none;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
-
       .image-card:hover {
         transform: scale(1.05);
       }
-
       .image-card img {
         max-width: 200px;
         border-radius: 12px;
         margin-bottom: 0.5rem;
         transition: transform 0.3s ease;
       }
-
       .image-card:hover img {
         transform: scale(1.1);
       }
-
       .caption {
         color: var(--text-dark);
         font-weight: 600;
@@ -263,36 +230,24 @@
     </header>
 
     <section class="icon-grid">
-      <div class="icon-button" data-tooltip="Visualize your academic progress">
-        <img
-          src="https://img.icons8.com/ios-filled/50/bar-chart.png"
-          alt="Performance Graph"
-        />
+      <div class="icon-button">
+        <img src="https://img.icons8.com/ios-filled/50/bar-chart.png" />
         <span>Performance Graph</span>
       </div>
-      <div class="icon-button" data-tooltip="See your weakest subject">
-        <img
-          src="https://img.icons8.com/ios-filled/50/graduation-cap.png"
-          alt="Weakest Subject"
-        />
+      <div class="icon-button">
+        <img src="https://img.icons8.com/ios-filled/50/graduation-cap.png" />
         <span>Weakest Subject</span>
       </div>
-      <div class="icon-button" data-tooltip="View your attendance">
-        <img
-          src="https://img.icons8.com/ios-filled/50/time.png"
-          alt="Attendance"
-        />
+      <div class="icon-button">
+        <img src="https://img.icons8.com/ios-filled/50/time.png" />
         <span>Attendance</span>
       </div>
-      <div class="icon-button" data-tooltip="AI-recommended lectures">
-        <img
-          src="https://img.icons8.com/ios-filled/50/student-center.png"
-          alt="Suggested Lectures"
-        />
+      <div class="icon-button">
+        <img src="https://img.icons8.com/ios-filled/50/student-center.png" />
         <span>Suggested Lectures</span>
       </div>
-      <div class="icon-button" data-tooltip="Tips from AI">
-        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip" />
+      <div class="icon-button">
+        <img src="https://img.icons8.com/ios-filled/50/idea.png" />
         <span>AI Tip</span>
       </div>
     </section>
@@ -342,106 +297,55 @@
     </section>
 
     <script>
-      document
-        .getElementById("main_dashboard")
-        .addEventListener("click", function () {
-          window.location.href = "page1.html";
-        });
-
-      async function getAnnualMarksByUID(uid) {
-        const response = await fetch(
-          "https://alpha9-original.github.io/EduLens-Web-Data/student_marks_report.html"
-        );
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, "text/html");
-
-        const table = doc.querySelector("table");
-        if (!table) return { error: "Table not found!" };
-
-        const headers = [...table.querySelectorAll("thead tr th")].map((th) =>
-          th.textContent.trim()
-        );
-        const rows = [...table.querySelectorAll("tbody tr")];
-
-        for (let row of rows) {
-          const cells = [...row.querySelectorAll("td")];
-          const rowUID = cells[2].textContent.trim();
-
-          if (rowUID === uid) {
-            const studentData = {};
-            headers.forEach((header, index) => {
-              if (
-                header.startsWith("Annual_") ||
-                header === "UID" ||
-                header === "Name"
-              ) {
-                studentData[header] = cells[index]?.textContent.trim() || "";
-              }
-            });
-            return studentData;
-          }
-        }
-
-        return { error: "UID not found!" };
-      }
+      document.getElementById("main_dashboard").addEventListener("click", function () {
+        window.location.href = "page1.html";
+      });
 
       const params = new URLSearchParams(window.location.search);
       const userId = params.get("uid");
 
       console.log("User ID from URL:", userId);
 
-      getAnnualMarksByUID(userId).then((data) => {
-        console.log("Student Data:", data);
+      // 🔗 Replace with your deployed Apps Script URL
+      const ATTENDANCE_API =
+        "https://script.google.com/macros/s/AKfycbzz19lsQqd53Cd-YXz2KtLqhm3uE9wmfkrBQpz9zIW1oCslr0Gh7zLvYqI3mCCLbXHnxQ/exec";
 
-        if (data?.error) return;
+      // Fetch Attendance from Google Apps Script
+      async function getAttendance(uid) {
+        const response = await fetch(ATTENDANCE_API + "?uid=" + uid);
+        return response.json();
+      }
 
-        const subjects = [
-          { label: "Math", key: "Annual_Maths" },
-          { label: "Science", key: "Annual_Science" },
-          { label: "English", key: "Annual_English" },
-          { label: "SST", key: "Annual_SST" },
-          { label: "2nd Language", key: "Annual_2ndLanguage" },
-        ];
+      getAttendance(userId).then((attendanceData) => {
+        console.log("Attendance Data:", attendanceData);
 
-        const labels = subjects.map((s) => s.label);
-        const marks = subjects.map((s) => parseInt(data[s.key]) || 0);
+        if (attendanceData.error) {
+          alert("Error: " + attendanceData.error);
+          return;
+        }
 
-        const sorted = subjects
-          .map((s, i) => ({ subject: s.label, mark: marks[i] }))
-          .sort((a, b) => a.mark - b.mark)
-          .slice(0, 2);
+        // Convert JSON into arrays
+        const labels = Object.keys(attendanceData).map((k) =>
+          k.replace(" Attendance", "")
+        );
+        const values = Object.values(attendanceData);
 
-        // 🪄 Add them as list under the info section
-        const infoPara = document.querySelector(".info p:nth-of-type(2)");
-        const ul = document.createElement("ul");
-        sorted.forEach((s) => {
-          const li = document.createElement("li");
-          li.textContent = `${s.subject} (${s.mark} marks)`;
-          ul.appendChild(li);
-        });
-        infoPara.parentElement.appendChild(ul);
-
-        const ctx = document.getElementById("examChart").getContext("2d");
-        new Chart(ctx, {
-          type: "bar",
+        const ctx2 = document.getElementById("attendanceChart").getContext("2d");
+        new Chart(ctx2, {
+          type: "line",
           data: {
-            labels: labels,
+            labels: labels, // Jan, Feb, Mar, ...
             datasets: [
               {
-                label: "Annual Exam Marks",
-                data: marks,
-                backgroundColor: [
-                  "#f87171",
-                  "#34d399",
-                  "#60a5fa",
-                  "#fbbf24",
-                  "#a78bfa",
-                ],
-                borderColor: "#fff",
-                borderWidth: 1,
-                borderRadius: 12,
+                label: "Attendance (days present)",
+                data: values,
+                fill: false,
+                borderColor: "#34d399",
+                backgroundColor: "#34d399",
+                tension: 0.3,
+                pointRadius: 5,
+                pointBackgroundColor: "#34d399",
+                borderWidth: 2,
               },
             ],
           },
@@ -465,48 +369,6 @@
             },
           },
         });
-      });
-
-      // Line Chart for Attendance
-      const ctx2 = document.getElementById("attendanceChart").getContext("2d");
-      new Chart(ctx2, {
-        type: "line",
-        data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-          datasets: [
-            {
-              label: "Attendance (%)",
-              data: [92, 85, 88, 95, 90, 93],
-              fill: false,
-              borderColor: "#34d399",
-              backgroundColor: "#34d399",
-              tension: 0.3,
-              pointRadius: 5,
-              pointBackgroundColor: "#34d399",
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              ticks: { color: "#f1f5f9" },
-              grid: { color: "#334155" },
-            },
-            x: {
-              ticks: { color: "#f1f5f9" },
-              grid: { display: false },
-            },
-          },
-          plugins: {
-            legend: {
-              labels: { color: "#f1f5f9" },
-            },
-          },
-        },
       });
     </script>
   </body>
