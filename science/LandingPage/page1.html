@@ -474,9 +474,11 @@
         .addEventListener("click", function (e) {
           e.preventDefault();
 
-          const queryString = new URLSearchParams(window.location.search);
-          const uid = queryString.get("uid");
-          window.location.href = `dashboard_page.html?uid=${uid}`;
+          // grab the full query string from the current URL
+          const queryString = window.location.search;
+
+          // append it as-is to the Dashboard link
+          window.location.href = `dashboard_page.html${queryString}`;
         });
 
       const counters = document.querySelectorAll(".stats h2");

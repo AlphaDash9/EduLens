@@ -264,19 +264,28 @@
 
     <section class="icon-grid">
       <div class="icon-button" id="goPerformance">
-        <img src="https://img.icons8.com/ios-filled/50/bar-chart.png" alt="Performance Graph"/>
+        <img
+          src="https://img.icons8.com/ios-filled/50/bar-chart.png"
+          alt="Performance Graph"
+        />
         <span>Performance Graph</span>
       </div>
       <div class="icon-button" id="goWeakest">
-        <img src="https://img.icons8.com/ios-filled/50/graduation-cap.png" alt="Weakest Subject"/>
+        <img
+          src="https://img.icons8.com/ios-filled/50/graduation-cap.png"
+          alt="Weakest Subject"
+        />
         <span>Weakest Subject</span>
       </div>
       <div class="icon-button" id="goAttendance">
-        <img src="https://img.icons8.com/ios-filled/50/time.png" alt="Attendance"/>
+        <img
+          src="https://img.icons8.com/ios-filled/50/time.png"
+          alt="Attendance"
+        />
         <span>Attendance</span>
       </div>
       <div class="icon-button" id="goAITips">
-        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip"/>
+        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip" />
         <span>AI Tip</span>
       </div>
     </section>
@@ -315,7 +324,10 @@
         </div>
         <div class="box interactive-card">
           <a href="#" class="image-card">
-            <img src="https://leonardo.ai/wp-content/uploads/2024/07/ai-graphic-design-vector-art.webp" alt="AI Tip Visual"/>
+            <img
+              src="https://leonardo.ai/wp-content/uploads/2024/07/ai-graphic-design-vector-art.webp"
+              alt="AI Tip Visual"
+            />
             <span class="caption">Click for more AI tips!</span>
           </a>
         </div>
@@ -323,25 +335,35 @@
     </section>
 
     <script>
-      document.getElementById("main_dashboard").addEventListener("click", function () {
-        window.location.href = "page1.html";
-      });
+      document
+        .getElementById("main_dashboard")
+        .addEventListener("click", function () {
+          window.location.href = "page1.html";
+        });
 
       // Scroll handlers
       document.getElementById("goPerformance").addEventListener("click", () => {
-        document.getElementById("sectionPerformance").scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("sectionPerformance")
+          .scrollIntoView({ behavior: "smooth" });
       });
 
       document.getElementById("goWeakest").addEventListener("click", () => {
-        document.getElementById("sectionPerformance").scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("sectionPerformance")
+          .scrollIntoView({ behavior: "smooth" });
       });
 
       document.getElementById("goAttendance").addEventListener("click", () => {
-        document.getElementById("sectionAttendance").scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("sectionAttendance")
+          .scrollIntoView({ behavior: "smooth" });
       });
 
       document.getElementById("goAITips").addEventListener("click", () => {
-        document.getElementById("sectionAITips").scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("sectionAITips")
+          .scrollIntoView({ behavior: "smooth" });
       });
 
       async function getAnnualMarksByUID(uid) {
@@ -501,6 +523,17 @@
             legend: { labels: { color: "#f1f5f9" } },
           },
         },
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const queryString = window.location.search;
+
+        // Update nav links dynamically
+        const homeLink = document.querySelector('a[href="page1.html"]');
+        const detailsLink = document.querySelector('a[href="page2.html"]');
+
+        if (homeLink) homeLink.href = "page1.html" + queryString;
+        if (detailsLink) detailsLink.href = "page2.html" + queryString;
       });
     </script>
   </body>
