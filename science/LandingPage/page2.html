@@ -1238,6 +1238,20 @@
         }
         window.location.href = `dpps_page.html?subject=English&difficulty=${level}&class=${std_class}`;
       });
+
+      const queryString = window.location.search;
+      const navLinks = document.querySelectorAll("header nav a, footer .footer-right a");
+      navLinks.forEach(link => {
+        const href = link.getAttribute("href");
+        if (href && !href.startsWith("#") && !href.startsWith("http")) {
+          if (href.includes("?")) {
+            link.setAttribute("href", href + "&" + queryString.substring(1));
+          } else {
+          link.setAttribute("href", href + queryString);
+        }
+      }
+    });
     </script>
   </body>
 </html>
+
