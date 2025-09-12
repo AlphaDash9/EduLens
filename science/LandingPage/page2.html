@@ -635,8 +635,8 @@
     <header>
       <div class="logo">EduLens<sup>©</sup></div>
       <nav>
-        <a href="page1.html">Home</a>
-        <a href="page2.html">Students</a>
+        <a href="page1.html" id="home">Home</a>
+        <a href="page2.html" id="students">Students</a>
         <a href="page3.html">About</a>
         <a
           href="#"
@@ -1239,19 +1239,25 @@
         window.location.href = `dpps_page.html?subject=English&difficulty=${level}&class=${std_class}`;
       });
 
-      const queryString = window.location.search;
-      const navLinks = document.querySelectorAll("header nav a, footer .footer-right a");
-      navLinks.forEach(link => {
-        const href = link.getAttribute("href");
-        if (href && !href.startsWith("#") && !href.startsWith("http")) {
-          if (href.includes("?")) {
-            link.setAttribute("href", href + "&" + queryString.substring(1));
-          } else {
-          link.setAttribute("href", href + queryString);
-        }
-      }
-    });
+      document
+        .getElementById("home")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          
+          const queryString = window.location.search;
+          window.location.href = `page1.html${queryString}`;
+        });
+
+      document
+        .getElementById("students")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const queryString = window.location.search;
+          window.location.href = `page2.html${queryString}`;
+        });
     </script>
   </body>
 </html>
+
 
