@@ -335,6 +335,12 @@
     </section>
 
     <script>
+      // Handle Back to Main Dashboard button
+      document.getElementById("main_dashboard").addEventListener("click", () => {
+        const queryString = window.location.search; // get everything after ?
+        window.location.href = "page1.html" + queryString;
+      });
+      
       // Scroll handlers
       document.getElementById("goPerformance").addEventListener("click", () => {
         document
@@ -532,5 +538,6 @@
     </script>
   </body>
 </html>
+
 
 
