@@ -637,7 +637,7 @@
       <nav>
         <a id="home">Home</a>
         <a id="students">Students</a>
-        <a href="page3.html">About</a>
+        <a href="about">About</a>
         <a
           href="#"
           style="
@@ -1256,9 +1256,19 @@
           const queryString = window.location.search;
           window.location.href = `page2.html${queryString}`;
         });
+
+      document
+        .getElementById("about")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const queryString = window.location.search;
+          window.location.href = `page3.html${queryString}`;
+        });
     </script>
   </body>
 </html>
+
 
 
 
