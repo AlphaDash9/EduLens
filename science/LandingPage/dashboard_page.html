@@ -335,14 +335,6 @@
     </section>
 
     <script>
-      document
-        .getElementById("main_dashboard")
-        .addEventListener("click", function () {
-          const queryString = window.location.search;
-          const homeLink = document.querySelector('a[href="page1.html"]');
-          if (homeLink) homeLink.href = "page1.html" + queryString;
-        });
-
       // Scroll handlers
       document.getElementById("goPerformance").addEventListener("click", () => {
         document
@@ -540,4 +532,5 @@
     </script>
   </body>
 </html>
+
 
