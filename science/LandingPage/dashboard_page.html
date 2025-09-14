@@ -338,7 +338,9 @@
       document
         .getElementById("main_dashboard")
         .addEventListener("click", function () {
-          window.location.href = "page1.html";
+          const queryString = window.location.search;
+          const homeLink = document.querySelector('a[href="page1.html"]');
+          if (homeLink) homeLink.href = "page1.html" + queryString;
         });
 
       // Scroll handlers
@@ -538,3 +540,4 @@
     </script>
   </body>
 </html>
+
