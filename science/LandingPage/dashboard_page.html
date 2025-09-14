@@ -629,32 +629,7 @@
         if (homeLink) homeLink.href = "page1.html" + queryString;
         if (detailsLink) detailsLink.href = "page2.html" + queryString;
       });
-
-      const prompt = `Student marks: ${JSON.stringify(
-          marks
-        )}, Attendance: 92,85,88,95,90,93. Give a very short study tip (max 12 words).`;
-
-        try {
-          const geminiResponse = await fetch(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAZdgOSu8jeLRGumcYXJQsFPiZys-438TU",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-              }),
-            }
-          );
-          const result = await geminiResponse.json();
-          const aiTip =
-            result?.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "Keep learning consistently!";
-          document.getElementById("aiTipText").textContent = aiTip;
-        } catch (e) {
-          document.getElementById("aiTipText").textContent =
-            "AI tip could not load.";
-        }
-      });
     </script>
   </body>
 </html>
+
