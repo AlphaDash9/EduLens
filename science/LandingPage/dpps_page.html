@@ -135,6 +135,19 @@
         margin-top: 1rem;
         color: #007aff;
       }
+
+      /* locked / unlocked summary styles */
+      details summary.locked-summary {
+        pointer-events: none; /* disables mouse clicks */
+        color: #8c98a6;
+        cursor: default;
+      }
+      details summary.unlocked-summary {
+        pointer-events: auto;
+        color: #007aff;
+        cursor: pointer;
+      }
+
       #historyContainer {
         display: none;
       }
@@ -461,9 +474,11 @@
               <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
               <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
               <div class="response-text" id="response-${i}"></div>
-              <details><summary>Show Answer</summary><p>${
-                answers[i] || "Answer not available"
-              }</p></details>
+              <!-- locked details: summary will be disabled until user submits -->
+              <details id="details-${i}">
+                <summary class="locked-summary">Show Answer</summary>
+                <p>${answers[i] || "Answer not available"}</p>
+              </details>
             `;
             container.appendChild(card);
           });
@@ -514,6 +529,7 @@
         const apiKey = "AIzaSyCgYCSLZvMorx0n7jM0nnyq2CqANXJseLs";
         const body = { contents: [{ parts: [{ text: prompt }] }] };
 
+        // show checking state
         response.textContent = "⏳ Checking your answer...";
 
         try {
@@ -531,9 +547,32 @@
             data?.candidates?.[0]?.content?.parts?.[0]?.text ||
             "⚠️ No response from Gemini.";
           response.textContent = reply;
+
+          // unlock and open the details/dropdown for this question AFTER evaluation
+          const det = document.getElementById(`details-${idx}`);
+          if (det) {
+            // open the details and switch summary styling to unlocked
+            det.open = true;
+            const summ = det.querySelector("summary");
+            if (summ) {
+              summ.classList.remove("locked-summary");
+              summ.classList.add("unlocked-summary");
+            }
+          }
         } catch (err) {
           console.error(err);
           response.textContent = "❌ Error checking answer.";
+
+          // even on error, open the answer so the user can still see it
+          const det = document.getElementById(`details-${idx}`);
+          if (det) {
+            det.open = true;
+            const summ = det.querySelector("summary");
+            if (summ) {
+              summ.classList.remove("locked-summary");
+              summ.classList.add("unlocked-summary");
+            }
+          }
         }
       }
 
@@ -570,9 +609,7 @@
             </div>
             <small>${item.date}</small>
             <div class="history-actions">
-              <button class="resume" onclick="generateDPP('${
-                item.topic
-              }', true)">🔄 Resume</button>
+              <button class="resume" onclick="generateDPP('${item.topic}', true)">🔄 Resume</button>
               <button class="delete" onclick="deleteHistory(${i})">🗑️ Delete</button>
             </div>
           `;
