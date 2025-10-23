@@ -134,10 +134,9 @@
           <strong>Questions:</strong> 10
         `;
         loadHistory();
-        generateDPP("Gravitation", true); // Load default Gravitation questions on page load
       });
 
-      async function generateDPP(topicParam, skipHistory = false) {
+      function generateDPP(topicParam, skipHistory = false) {
         const topic = topicParam || document.getElementById("topic").value;
         if (!topic) return alert("Please enter a topic.");
 
@@ -148,11 +147,10 @@
         const summaryDiff = document.getElementById("summaryDifficulty");
         if (summaryDiff) summaryDiff.textContent = difficulty;
 
-        const count = 10;
         const container = document.getElementById("questionContainer");
         container.innerHTML = "<p>Loading questions...</p>";
 
-        // Use fallback/default questions for now
+        // Show default Gravitation questions only when button is clicked
         showFallbackOutput(container, topic, subject, difficulty);
       }
 
@@ -176,12 +174,10 @@
         });
       }
 
-      async function submitAnswer(idx) {
+      function submitAnswer(idx) {
         const input = document.getElementById(`input-${idx}`);
         const response = document.getElementById(`response-${idx}`);
         if (!input.value.trim()) return alert("Enter an answer.");
-
-        const userAnswer = input.value.trim();
         response.textContent = "✅ Your answer submitted (check 'Show Answer' for solution)";
         const det = document.getElementById(`details-${idx}`);
         if (det) {
