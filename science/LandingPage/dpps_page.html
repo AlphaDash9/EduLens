@@ -50,8 +50,6 @@
       .submit-btn:hover { background:#218838; }
       .response-text { margin-top:0.6rem; font-size:1rem; font-weight:bold; color:#222; }
       details summary { cursor:pointer; font-weight:500; margin-top:1rem; color:#007aff; }
-
-      /* locked / unlocked summary styles */
       details summary.locked-summary { pointer-events:none; color:#8c98a6; cursor:default; }
       details summary.unlocked-summary { pointer-events:auto; color:#007aff; cursor:pointer; }
 
@@ -74,7 +72,6 @@
         .form-container { flex-direction:column; align-items:center; }
         .form-container input, .form-container select, .form-container button { width:100%; }
       }
-      /* other responsive rules omitted for brevity (kept above if you want) */
     </style>
   </head>
   <body>
@@ -90,7 +87,6 @@
       <strong>Questions:</strong> 10
     </div>
 
-    <!-- Generator Tab -->
     <div id="generatorContainer">
       <div class="form-container">
         <input type="text" id="topic" placeholder="Enter Topic" required />
@@ -105,19 +101,15 @@
       <div id="questionContainer"></div>
     </div>
 
-    <!-- History Tab -->
     <div id="historyContainer"><div id="historyList"></div></div>
 
     <script>
       const queryParams = (() => {
         const params = {};
-        window.location.search
-          .substring(1)
-          .split("&")
-          .forEach((pair) => {
-            const [k, v] = pair.split("=");
-            params[decodeURIComponent(k)] = decodeURIComponent(v || "");
-          });
+        window.location.search.substring(1).split("&").forEach((pair) => {
+          const [k, v] = pair.split("=");
+          params[decodeURIComponent(k)] = decodeURIComponent(v || "");
+        });
         return params;
       })();
 
@@ -135,16 +127,12 @@
         const topic = topicParam || document.getElementById("topic").value;
         if (!topic) return alert("Please enter a topic.");
 
-        // Use subject from the URL (user asked us to take it from link)
         const classVal = queryParams.class || "9";
         const subject = queryParams.subject || "Physics";
-
         const selectedDiff = document.getElementById("difficulty")?.value?.trim();
         const difficulty = selectedDiff || queryParams.difficulty || "Medium";
-
         const summaryDiff = document.getElementById("summaryDifficulty");
         if (summaryDiff) summaryDiff.textContent = difficulty;
-
         const count = 10;
         const container = document.getElementById("questionContainer");
         container.innerHTML = "<p>Loading questions...</p>";
@@ -155,7 +143,6 @@
           Provide diverse questions and at the end, write: 'Answer Key and Explanations:' followed by the answers.
         `;
 
-        // NOTE: You have your API keys here.
         const apiKey = "AIzaSyBaAQaRly8Qoq8J0-itM9lbPh6o3gKxbn4";
         const body = { contents: [{ parts: [{ text: prompt }] }] };
 
@@ -169,18 +156,21 @@
             }
           );
           const data = await res.json();
-          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response from Gemini.";
+          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
-          if (!skipHistory) {
-            saveToHistory({ topic, classVal, difficulty, subject, text });
+          if (!text.trim()) {
+            showFallbackOutput(container, topic, subject, difficulty);
+            return;
           }
+
+          if (!skipHistory) saveToHistory({ topic, classVal, difficulty, subject, text });
 
           const questions = extractQuestions(text).slice(0, count);
           const answers = extractAnswers(text).slice(0, count);
           container.innerHTML = "";
 
           if (questions.length === 0) {
-            container.innerHTML = "<p style='color:red'>⚠️ No questions found. Check API output.</p>";
+            showFallbackOutput(container, topic, subject, difficulty);
             return;
           }
 
@@ -193,7 +183,6 @@
               <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
               <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
               <div class="response-text" id="response-${i}"></div>
-              <!-- locked details: summary will be disabled until user submits -->
               <details id="details-${i}">
                 <summary class="locked-summary">Show Answer</summary>
                 <p>${escapeHtml(answers[i] || "Answer not available")}</p>
@@ -205,6 +194,25 @@
           console.error(err);
           container.innerHTML = "<p style='color:red'>❌ Error contacting Gemini API.</p>";
         }
+      }
+
+      function showFallbackOutput(container, topic, subject, difficulty) {
+        container.innerHTML = `
+          <div style="background:white; padding:2rem; border-radius:16px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <h2>⚠️ Gemini didn’t return any data</h2>
+            <p>Don’t worry! Sometimes the API can be slow or overloaded.</p>
+            <p>Here’s a quick motivational nudge while you wait:</p>
+            <blockquote style="font-style:italic; color:#555; margin:1rem 0;">
+              “Success is the sum of small efforts, repeated day in and day out.”
+            </blockquote>
+            <p><strong>Topic:</strong> ${escapeHtml(topic)}<br>
+            <strong>Subject:</strong> ${escapeHtml(subject)}<br>
+            <strong>Difficulty:</strong> ${escapeHtml(difficulty)}</p>
+            <button onclick="generateDPP('${topic.replace(/'/g, "\\'")}')" style="margin-top:1rem; padding:0.7rem 1.4rem; background:#007aff; color:white; border:none; border-radius:12px; font-weight:600; cursor:pointer;">
+              🔁 Retry Generating
+            </button>
+          </div>
+        `;
       }
 
       function extractQuestions(text) {
@@ -228,15 +236,10 @@
         const input = document.getElementById(`input-${idx}`);
         const response = document.getElementById(`response-${idx}`);
         const questionCards = document.querySelectorAll(".question-text");
-
-        if (!input.value.trim()) {
-          alert("Enter an answer.");
-          return;
-        }
+        if (!input.value.trim()) return alert("Enter an answer.");
 
         const userAnswer = input.value.trim();
         const question = questionCards[idx].innerText;
-
         const prompt = `
           Evaluate this answer.
           Question: ${question}
@@ -246,7 +249,6 @@
 
         const apiKey = "AIzaSyCgYCSLZvMorx0n7jM0nnyq2CqANXJseLs";
         const body = { contents: [{ parts: [{ text: prompt }] }] };
-
         response.textContent = "⏳ Checking your answer...";
 
         try {
@@ -258,27 +260,18 @@
               body: JSON.stringify(body),
             }
           );
-
           const data = await res.json();
           const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No response from Gemini.";
           response.textContent = reply;
-
-          // unlock and open the details/dropdown for this question AFTER evaluation
           const det = document.getElementById(`details-${idx}`);
           if (det) {
             det.open = true;
             const summ = det.querySelector("summary");
-            if (summ) { summ.classList.remove("locked-summary"); summ.classList.add("unlocked-summary"); }
+            if (summ) summ.classList.replace("locked-summary", "unlocked-summary");
           }
         } catch (err) {
           console.error(err);
           response.textContent = "❌ Error checking answer.";
-          const det = document.getElementById(`details-${idx}`);
-          if (det) {
-            det.open = true;
-            const summ = det.querySelector("summary");
-            if (summ) { summ.classList.remove("locked-summary"); summ.classList.add("unlocked-summary"); }
-          }
         }
       }
 
@@ -288,7 +281,6 @@
         localStorage.setItem("dppHistory", JSON.stringify(hist.slice(0, 20)));
       }
 
-      // Delete using original array index so we remove the correct item
       function deleteHistory(originalIndex) {
         let hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
         if (originalIndex >= 0 && originalIndex < hist.length) {
@@ -298,7 +290,6 @@
         loadHistory();
       }
 
-      // When resuming, restore topic & difficulty to UI, then generate (skip saving to history)
       function resumeHistory(originalIndex) {
         const hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
         const item = hist[originalIndex];
@@ -306,13 +297,12 @@
         document.getElementById("topic").value = item.topic || "";
         const diffSelect = document.getElementById("difficulty");
         if (diffSelect && item.difficulty) {
-          // try to set the difficulty select to stored value (case-insensitive)
-          const val = Array.from(diffSelect.options).find(o => (o.value || "").toLowerCase() === (item.difficulty || "").toLowerCase());
+          const val = Array.from(diffSelect.options).find(
+            o => (o.value || "").toLowerCase() === (item.difficulty || "").toLowerCase()
+          );
           if (val) diffSelect.value = val.value;
         }
-        // Optionally switch to generator tab
-        showTab('generator');
-        // Generate without saving to history (skipHistory = true)
+        showTab("generator");
         generateDPP(item.topic, true);
       }
 
@@ -320,31 +310,22 @@
         const hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
         const list = document.getElementById("historyList");
         list.innerHTML = "";
-
-        // Get subject filter from URL (case-insensitive). If absent, show all.
         const subjectFilter = (queryParams.subject || "").trim().toLowerCase() || null;
 
-        // Build filtered list but preserve original indices in storage
         const filtered = hist
           .map((item, idx) => ({ ...item, _origIdx: idx }))
-          .filter((item) => {
-            if (!subjectFilter) return true; // no filter -> show all
-            return (item.subject || "").toLowerCase() === subjectFilter;
-          });
+          .filter((item) => !subjectFilter || (item.subject || "").toLowerCase() === subjectFilter);
 
         if (!filtered.length) {
-          if (subjectFilter) {
-            list.innerHTML = `<p>No history found for subject <strong>${escapeHtml(queryParams.subject)}</strong>.</p>`;
-          } else {
-            list.innerHTML = "<p>No history found.</p>";
-          }
+          list.innerHTML = subjectFilter
+            ? `<p>No history found for subject <strong>${escapeHtml(queryParams.subject)}</strong>.</p>`
+            : "<p>No history found.</p>";
           return;
         }
 
         filtered.forEach((item, displayIndex) => {
           const div = document.createElement("div");
           div.className = "history-entry";
-          // Note: use item._origIdx for operations (delete/resume)
           div.innerHTML = `
             <strong>${displayIndex + 1}. Topic: ${escapeHtml(item.topic || "")}</strong>
             <div class="dpp-info">
@@ -388,6 +369,3 @@
     </script>
   </body>
 </html>
-
-
-
