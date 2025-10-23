@@ -113,14 +113,28 @@
         return params;
       })();
 
+      const defaultQuestions = [
+        { question: "State the law of universal gravitation.", answer: "Every particle attracts every other particle with a force directly proportional to the product of their masses and inversely proportional to the square of the distance between them." },
+        { question: "Calculate the gravitational force between two 5 kg masses placed 2 m apart. (G = 6.67×10⁻¹¹ Nm²/kg²)", answer: "F = G * m1 * m2 / r² = 6.67×10⁻¹¹ * 5 * 5 / 4 = 4.16875 ×10⁻¹⁰ N" },
+        { question: "What is the acceleration due to gravity on the surface of Earth?", answer: "Approximately 9.8 m/s²" },
+        { question: "Explain why objects fall to the Earth when dropped.", answer: "Because Earth exerts a gravitational force on them pulling them towards its center." },
+        { question: "What happens to the gravitational force if the distance between two objects is doubled?", answer: "It becomes one-fourth of the original force, since F ∝ 1/r²." },
+        { question: "Define mass and weight.", answer: "Mass is the amount of matter in a body. Weight is the gravitational force acting on the body." },
+        { question: "Why do astronauts appear weightless in space?", answer: "Because they are in free fall, moving along with their spacecraft, so they experience no contact force." },
+        { question: "What is the value of G, the universal gravitational constant?", answer: "6.67 × 10⁻¹¹ N·m²/kg²" },
+        { question: "How does mass of an object affect the gravitational force it experiences?", answer: "Gravitational force is directly proportional to the mass of the object." },
+        { question: "Explain the term 'free fall'.", answer: "Motion of a body under the influence of gravity only, with no resistance from air or other forces." }
+      ];
+
       document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("summaryInfo").innerHTML = `
-          <strong>Class:</strong> ${queryParams.class || "?"} |
-          <strong>Subject:</strong> ${queryParams.subject || "?"} |
-          <strong>Difficulty:</strong> <span id="summaryDifficulty">${queryParams.difficulty || "?"}</span> |
+          <strong>Class:</strong> ${queryParams.class || "9"} |
+          <strong>Subject:</strong> ${queryParams.subject || "Science"} |
+          <strong>Difficulty:</strong> <span id="summaryDifficulty">${queryParams.difficulty || "Medium"}</span> |
           <strong>Questions:</strong> 10
         `;
         loadHistory();
+        generateDPP("Gravitation", true); // Load default Gravitation questions on page load
       });
 
       async function generateDPP(topicParam, skipHistory = false) {
@@ -128,182 +142,53 @@
         if (!topic) return alert("Please enter a topic.");
 
         const classVal = queryParams.class || "9";
-        const subject = queryParams.subject || "Physics";
+        const subject = queryParams.subject || "Science";
         const selectedDiff = document.getElementById("difficulty")?.value?.trim();
         const difficulty = selectedDiff || queryParams.difficulty || "Medium";
         const summaryDiff = document.getElementById("summaryDifficulty");
         if (summaryDiff) summaryDiff.textContent = difficulty;
+
         const count = 10;
         const container = document.getElementById("questionContainer");
         container.innerHTML = "<p>Loading questions...</p>";
 
-        const prompt = `
-          Generate a set of ${count} DPP questions for Class ${classVal} in ${subject}.
-          The topic is "${topic}" with difficulty level "${difficulty}".
-          Provide diverse questions and at the end, write: 'Answer Key and Explanations:' followed by the answers.
-        `;
-
-        const apiKey = "AIzaSyBaAQaRly8Qoq8J0-itM9lbPh6o3gKxbn4";
-        const body = { contents: [{ parts: [{ text: prompt }] }] };
-
-        try {
-          const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body),
-            }
-          );
-          const data = await res.json();
-          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-
-          if (!text.trim()) {
-            showFallbackOutput(container, topic, subject, difficulty);
-            return;
-          }
-
-          if (!skipHistory) saveToHistory({ topic, classVal, difficulty, subject, text });
-
-          const questions = extractQuestions(text).slice(0, count);
-          const answers = extractAnswers(text).slice(0, count);
-          container.innerHTML = "";
-
-          if (questions.length === 0) {
-            showFallbackOutput(container, topic, subject, difficulty);
-            return;
-          }
-
-          questions.forEach((q, i) => {
-            const card = document.createElement("div");
-            card.className = "question-card";
-            card.innerHTML = `
-              <div class="question-number">Q${i + 1}.</div>
-              <div class="question-text">${escapeHtml(q)}</div>
-              <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
-              <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
-              <div class="response-text" id="response-${i}"></div>
-              <details id="details-${i}">
-                <summary class="locked-summary">Show Answer</summary>
-                <p>${escapeHtml(answers[i] || "Answer not available")}</p>
-              </details>
-            `;
-            container.appendChild(card);
-          });
-        } catch (err) {
-          console.error(err);
-          container.innerHTML = "<p style='color:red'>❌ Error contacting Gemini API.</p>";
-        }
+        // Use fallback/default questions for now
+        showFallbackOutput(container, topic, subject, difficulty);
       }
 
       function showFallbackOutput(container, topic, subject, difficulty) {
-        container.innerHTML = `
-          <div style="background:white; padding:2rem; border-radius:16px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-            <h2>⚠️ Gemini didn’t return any data</h2>
-            <p>Don’t worry! Sometimes the API can be slow or overloaded.</p>
-            <p>Here’s a quick motivational nudge while you wait:</p>
-            <blockquote style="font-style:italic; color:#555; margin:1rem 0;">
-              “Success is the sum of small efforts, repeated day in and day out.”
-            </blockquote>
-            <p><strong>Topic:</strong> ${escapeHtml(topic)}<br>
-            <strong>Subject:</strong> ${escapeHtml(subject)}<br>
-            <strong>Difficulty:</strong> ${escapeHtml(difficulty)}</p>
-            <button onclick="generateDPP('${topic.replace(/'/g, "\\'")}')" style="margin-top:1rem; padding:0.7rem 1.4rem; background:#007aff; color:white; border:none; border-radius:12px; font-weight:600; cursor:pointer;">
-              🔁 Retry Generating
-            </button>
-          </div>
-        `;
-      }
-
-      function extractQuestions(text) {
-        return text
-          .split("\n")
-          .filter((l) => /^\d+[\.\)]\s+/.test(l.trim()))
-          .map((l) => l.trim().replace(/^\d+[\.\)]\s+/, ""));
-      }
-
-      function extractAnswers(text) {
-        const idx = text.indexOf("Answer Key and Explanations:");
-        if (idx < 0) return [];
-        return text
-          .substring(idx)
-          .split("\n")
-          .filter((l) => /^\d+[\.\)]\s+/.test(l.trim()))
-          .map((l) => l.trim().replace(/^\d+[\.\**)]\s+/, ""));
+        container.innerHTML = "";
+        defaultQuestions.forEach((q, i) => {
+          const card = document.createElement("div");
+          card.className = "question-card";
+          card.innerHTML = `
+            <div class="question-number">Q${i + 1}.</div>
+            <div class="question-text">${escapeHtml(q.question)}</div>
+            <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
+            <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
+            <div class="response-text" id="response-${i}"></div>
+            <details id="details-${i}">
+              <summary class="locked-summary">Show Answer</summary>
+              <p>${escapeHtml(q.answer)}</p>
+            </details>
+          `;
+          container.appendChild(card);
+        });
       }
 
       async function submitAnswer(idx) {
         const input = document.getElementById(`input-${idx}`);
         const response = document.getElementById(`response-${idx}`);
-        const questionCards = document.querySelectorAll(".question-text");
         if (!input.value.trim()) return alert("Enter an answer.");
 
         const userAnswer = input.value.trim();
-        const question = questionCards[idx].innerText;
-        const prompt = `
-          Evaluate this answer.
-          Question: ${question}
-          Answer given by student: ${userAnswer}
-          Respond with "Correct" or "Incorrect" followed by a brief explanation if possible.
-        `;
-
-        const apiKey = "AIzaSyCgYCSLZvMorx0n7jM0nnyq2CqANXJseLs";
-        const body = { contents: [{ parts: [{ text: prompt }] }] };
-        response.textContent = "⏳ Checking your answer...";
-
-        try {
-          const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body),
-            }
-          );
-          const data = await res.json();
-          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No response from Gemini.";
-          response.textContent = reply;
-          const det = document.getElementById(`details-${idx}`);
-          if (det) {
-            det.open = true;
-            const summ = det.querySelector("summary");
-            if (summ) summ.classList.replace("locked-summary", "unlocked-summary");
-          }
-        } catch (err) {
-          console.error(err);
-          response.textContent = "❌ Error checking answer.";
+        response.textContent = "✅ Your answer submitted (check 'Show Answer' for solution)";
+        const det = document.getElementById(`details-${idx}`);
+        if (det) {
+          det.open = true;
+          const summ = det.querySelector("summary");
+          if (summ) summ.classList.replace("locked-summary", "unlocked-summary");
         }
-      }
-
-      function saveToHistory(item) {
-        let hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
-        hist.unshift({ ...item, date: new Date().toLocaleString() });
-        localStorage.setItem("dppHistory", JSON.stringify(hist.slice(0, 20)));
-      }
-
-      function deleteHistory(originalIndex) {
-        let hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
-        if (originalIndex >= 0 && originalIndex < hist.length) {
-          hist.splice(originalIndex, 1);
-          localStorage.setItem("dppHistory", JSON.stringify(hist));
-        }
-        loadHistory();
-      }
-
-      function resumeHistory(originalIndex) {
-        const hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
-        const item = hist[originalIndex];
-        if (!item) return alert("History item not found.");
-        document.getElementById("topic").value = item.topic || "";
-        const diffSelect = document.getElementById("difficulty");
-        if (diffSelect && item.difficulty) {
-          const val = Array.from(diffSelect.options).find(
-            o => (o.value || "").toLowerCase() === (item.difficulty || "").toLowerCase()
-          );
-          if (val) diffSelect.value = val.value;
-        }
-        showTab("generator");
-        generateDPP(item.topic, true);
       }
 
       function loadHistory() {
@@ -341,6 +226,31 @@
           `;
           list.appendChild(div);
         });
+      }
+
+      function resumeHistory(originalIndex) {
+        const hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
+        const item = hist[originalIndex];
+        if (!item) return alert("History item not found.");
+        document.getElementById("topic").value = item.topic || "";
+        const diffSelect = document.getElementById("difficulty");
+        if (diffSelect && item.difficulty) {
+          const val = Array.from(diffSelect.options).find(
+            o => (o.value || "").toLowerCase() === (item.difficulty || "").toLowerCase()
+          );
+          if (val) diffSelect.value = val.value;
+        }
+        showTab("generator");
+        generateDPP(item.topic, true);
+      }
+
+      function deleteHistory(originalIndex) {
+        let hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
+        if (originalIndex >= 0 && originalIndex < hist.length) {
+          hist.splice(originalIndex, 1);
+          localStorage.setItem("dppHistory", JSON.stringify(hist));
+        }
+        loadHistory();
       }
 
       function showTab(tab) {
