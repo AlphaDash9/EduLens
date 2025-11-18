@@ -237,102 +237,9 @@
         font-size: 1rem;
         text-align: center;
       }
-
-      @media (max-width: 600px) {
-        header h1 {
-          font-size: 1.8rem;
-        }
-        header p {
-          font-size: 0.9rem;
-        }
-      
-        .nav {
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 1rem;
-        }
-      
-        .nav a {
-          display: block;
-          margin: 0.5rem 0;
-        }
-      
-        .buttons {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-      
-        .btn {
-          margin: 0.4rem 0;
-          width: 100%;
-        }
-      
-        .icon-grid {
-          grid-template-columns: 1fr 1fr;
-          padding: 1rem;
-        }
-      
-        .pair {
-          grid-template-columns: 1fr;
-        }
-      
-        .box {
-          margin-top: 1rem;
-        }
-      
-        canvas {
-          max-width: 100%;
-        }
-      
-        .image-card img {
-          max-width: 150px;
-        }
-      }
-      
-      @media (min-width: 601px) and (max-width: 992px) {
-        header h1 {
-          font-size: 2rem;
-        }
-      
-        .nav {
-          padding: 1rem 1.5rem;
-        }
-      
-        .nav a {
-          margin-left: 1rem;
-        }
-      
-        .icon-grid {
-          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-          gap: 1rem;
-          padding: 1.5rem;
-        }
-      
-        .pair {
-          grid-template-columns: 1fr;
-        }
-      
-        .box {
-          margin-top: 1rem;
-        }
-      
-        canvas {
-          max-width: 100%;
-        }
-      }
-      
-      @media (min-width: 993px) {
-        .icon-grid {
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        }
-      
-        .pair {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
     </style>
   </head>
+
   <body>
     <div class="nav">
       <div>
@@ -358,33 +265,28 @@
 
     <section class="icon-grid">
       <div class="icon-button" id="goPerformance">
-        <img
-          src="https://img.icons8.com/ios-filled/50/bar-chart.png"
-          alt="Performance Graph"
-        />
+        <img src="https://img.icons8.com/ios-filled/50/bar-chart.png" />
         <span>Performance Graph</span>
       </div>
+
       <div class="icon-button" id="goWeakest">
-        <img
-          src="https://img.icons8.com/ios-filled/50/graduation-cap.png"
-          alt="Weakest Subject"
-        />
+        <img src="https://img.icons8.com/ios-filled/50/graduation-cap.png" />
         <span>Weakest Subject</span>
       </div>
+
       <div class="icon-button" id="goAttendance">
-        <img
-          src="https://img.icons8.com/ios-filled/50/time.png"
-          alt="Attendance"
-        />
+        <img src="https://img.icons8.com/ios-filled/50/time.png" />
         <span>Attendance</span>
       </div>
+
       <div class="icon-button" id="goAITips">
-        <img src="https://img.icons8.com/ios-filled/50/idea.png" alt="AI Tip" />
+        <img src="https://img.icons8.com/ios-filled/50/idea.png" />
         <span>AI Tip</span>
       </div>
     </section>
 
     <section class="analytics-grid">
+      <!-- Performance -->
       <div class="pair" id="sectionPerformance">
         <div class="info">
           <h2>Your performance</h2>
@@ -399,6 +301,7 @@
 
       <hr />
 
+      <!-- Attendance -->
       <div class="pair" id="sectionAttendance">
         <div class="box">
           <canvas id="attendanceChart"></canvas>
@@ -411,16 +314,16 @@
 
       <hr />
 
+      <!-- AI Tips -->
       <div class="pair" id="sectionAITips">
         <div class="info">
           <h2>Tips by our AI</h2>
-          <p>AI-powered tips for your progress.</p>
+          <p id="aiTipText">AI-powered tips for your progress.</p>
         </div>
         <div class="box interactive-card">
-          <a href="#" class="image-card">
+          <a href="#" id="aiTipCard" class="image-card">
             <img
               src="https://leonardo.ai/wp-content/uploads/2024/07/ai-graphic-design-vector-art.webp"
-              alt="AI Tip Visual"
             />
             <span class="caption">Click for more AI tips!</span>
           </a>
@@ -429,35 +332,33 @@
     </section>
 
     <script>
-      // Handle Back to Main Dashboard button
       document.getElementById("main_dashboard").addEventListener("click", () => {
-        const queryString = window.location.search; // get everything after ?
+        const queryString = window.location.search;
         window.location.href = "page1.html" + queryString;
       });
-      
-      // Scroll handlers
+
       document.getElementById("goPerformance").addEventListener("click", () => {
-        document
-          .getElementById("sectionPerformance")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("sectionPerformance").scrollIntoView({
+          behavior: "smooth",
+        });
       });
 
       document.getElementById("goWeakest").addEventListener("click", () => {
-        document
-          .getElementById("sectionPerformance")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("sectionPerformance").scrollIntoView({
+          behavior: "smooth",
+        });
       });
 
       document.getElementById("goAttendance").addEventListener("click", () => {
-        document
-          .getElementById("sectionAttendance")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("sectionAttendance").scrollIntoView({
+          behavior: "smooth",
+        });
       });
 
       document.getElementById("goAITips").addEventListener("click", () => {
-        document
-          .getElementById("sectionAITips")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("sectionAITips").scrollIntoView({
+          behavior: "smooth",
+        });
       });
 
       async function getAnnualMarksByUID(uid) {
@@ -502,11 +403,7 @@
       const params = new URLSearchParams(window.location.search);
       const userId = params.get("uid");
 
-      console.log("User ID from URL:", userId);
-
       getAnnualMarksByUID(userId).then((data) => {
-        console.log("Student Data:", data);
-
         if (data?.error) return;
 
         const subjects = [
@@ -525,7 +422,6 @@
           .sort((a, b) => a.mark - b.mark)
           .slice(0, 2);
 
-        // 🪄 Add them as list under the info section
         const infoPara = document.querySelector(".info p:nth-of-type(2)");
         const ul = document.createElement("ul");
         sorted.forEach((s) => {
@@ -579,7 +475,6 @@
         });
       });
 
-      // Example charts (kept same as your original)
       const ctx2 = document.getElementById("attendanceChart").getContext("2d");
       new Chart(ctx2, {
         type: "line",
@@ -621,15 +516,42 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         const queryString = window.location.search;
-
-        // Update nav links dynamically
         const homeLink = document.querySelector('a[href="page1.html"]');
         const detailsLink = document.querySelector('a[href="page2.html"]');
 
         if (homeLink) homeLink.href = "page1.html" + queryString;
         if (detailsLink) detailsLink.href = "page2.html" + queryString;
       });
+
+      /* -------------------------------
+         ⭐ NEW FEATURE: AI RANDOM TIPS
+      --------------------------------*/
+      const aiTips = [
+        "Focus more on your weakest subjects daily for 20 minutes to see improvement.",
+        "Solve at least 3 mock tests this week to boost exam confidence.",
+        "Revise previous chapters before studying new ones to strengthen your basics.",
+        "Practice writing short notes — they improve memory retention.",
+        "Try solving 5 extra Math questions every day.",
+        "Spend 15 minutes reading English articles to improve vocabulary.",
+        "Review your mistakes from past tests and avoid repeating them.",
+        "Improve time management by solving sample papers under exam timing.",
+        "Break long study sessions into 30-minute chunks for better focus.",
+        "Solve previous year question papers for a stronger understanding of exam patterns."
+      ];
+
+      function showRandomTip() {
+        const tip = aiTips[Math.floor(Math.random() * aiTips.length)];
+        document.getElementById("aiTipText").textContent = tip;
+      }
+
+      // Show a tip when page loads
+      showRandomTip();
+
+      // Show a new tip when clicking the card
+      document.getElementById("aiTipCard").addEventListener("click", (e) => {
+        e.preventDefault();
+        showRandomTip();
+      });
     </script>
   </body>
 </html>
-
