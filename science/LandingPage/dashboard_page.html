@@ -318,7 +318,7 @@
       <div class="pair" id="sectionAITips">
         <div class="info">
           <h2>Tips by our AI</h2>
-          <p id="aiTipText">AI-powered tips for your progress.</p>
+          <div id="aiTipText"></div>
         </div>
         <div class="box interactive-card">
           <a href="#" id="aiTipCard" class="image-card">
@@ -524,33 +524,47 @@
       });
 
       /* -------------------------------
-         ⭐ NEW FEATURE: AI RANDOM TIPS
+         ⭐ UPDATED FEATURE: AI MULTI-TIPS
       --------------------------------*/
       const aiTips = [
-        "Focus more on your weakest subjects daily for 20 minutes to see improvement.",
-        "Solve at least 3 mock tests this week to boost exam confidence.",
-        "Revise previous chapters before studying new ones to strengthen your basics.",
-        "Practice writing short notes — they improve memory retention.",
-        "Try solving 5 extra Math questions every day.",
-        "Spend 15 minutes reading English articles to improve vocabulary.",
-        "Review your mistakes from past tests and avoid repeating them.",
-        "Improve time management by solving sample papers under exam timing.",
-        "Break long study sessions into 30-minute chunks for better focus.",
-        "Solve previous year question papers for a stronger understanding of exam patterns."
+        "Focus more on your weakest subjects daily for 20 minutes.",
+        "Solve at least 3 mock tests this week to boost confidence.",
+        "Revise previous chapters to strengthen your basics.",
+        "Practice writing short notes for better memory.",
+        "Solve 5 extra Math questions every day.",
+        "Read English articles daily to improve vocabulary.",
+        "Review your past mistakes to avoid repeating them.",
+        "Improve time management using timed sample papers.",
+        "Study in 30-minute chunks for better focus.",
+        "Use previous year papers to understand exam patterns."
       ];
 
-      function showRandomTip() {
-        const tip = aiTips[Math.floor(Math.random() * aiTips.length)];
-        document.getElementById("aiTipText").textContent = tip;
+      function showRandomTips() {
+        const selected = [];
+        while (selected.length < 3) {
+          const tip = aiTips[Math.floor(Math.random() * aiTips.length)];
+          if (!selected.includes(tip)) selected.push(tip);
+        }
+
+        const ul = document.createElement("ul");
+        selected.forEach((tip) => {
+          const li = document.createElement("li");
+          li.textContent = tip;
+          ul.appendChild(li);
+        });
+
+        const container = document.getElementById("aiTipText");
+        container.innerHTML = "";
+        container.appendChild(ul);
       }
 
-      // Show a tip when page loads
-      showRandomTip();
+      // Show multiple tips on load
+      showRandomTips();
 
-      // Show a new tip when clicking the card
+      // Show new tips when clicking card
       document.getElementById("aiTipCard").addEventListener("click", (e) => {
         e.preventDefault();
-        showRandomTip();
+        showRandomTips();
       });
     </script>
   </body>
