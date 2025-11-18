@@ -1,277 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DPP Generator | EduLens</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: "Inter", sans-serif;
-        background: #f0f2f5;
-        color: #111;
-        padding: 2rem;
-      }
-      h1 { text-align: center; font-weight: 600; margin-bottom: 2rem; color: #1a1a1a; }
-      .tabs { display:flex; justify-content:center; margin-bottom:1.5rem; }
-      .tab {
-        margin:0 1rem; padding:0.5rem 1.5rem; border-radius:10px; cursor:pointer;
-        font-weight:600; color:#007aff; background:#fff; border:2px solid #007aff;
-        transition: all 0.3s ease;
-      }
-      .tab.active { background:#007aff; color:white; }
-      .form-container {
-        display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;
-      }
-      .form-container input, .form-container select, .form-container button {
-        padding:0.7rem 1.2rem; font-size:1rem; border-radius:14px; border:1px solid #ccc;
-        backdrop-filter: blur(10px); background: rgba(255,255,255,0.6); transition: all 0.3s ease;
-      }
-      .form-container button { background:#007aff; color:white; font-weight:bold; border:none; }
-      .form-container button:hover { background:#005ecc; }
-      .summary-info { text-align:center; margin-bottom:1rem; font-size:1rem; color:#444; }
-      .question-card {
-        background:white; border-radius:18px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        padding:1.8rem 2rem; margin-bottom:1.8rem; transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-      .question-card:hover { transform: translateY(-4px); box-shadow:0 6px 25px rgba(0,0,0,0.1); }
-      .question-number { font-size:1.3rem; font-weight:600; color:#333; margin-bottom:1rem; }
-      .question-text { font-size:1.05rem; color:#444; }
-      .answer-input { width:100%; margin-top:1rem; padding:0.7rem; font-size:1rem; border-radius:10px; border:1px solid #ccc; outline:none; }
-      .submit-btn {
-        margin-top:0.7rem; padding:0.6rem 1.2rem; background:#28a745; color:white; font-weight:600; border:none;
-        border-radius:10px; cursor:pointer; transition: background 0.3s;
-      }
-      .submit-btn:hover { background:#218838; }
-      .response-text { margin-top:0.6rem; font-size:1rem; font-weight:bold; color:#222; }
-      details summary { cursor:pointer; font-weight:500; margin-top:1rem; color:#007aff; }
-      details summary.locked-summary { pointer-events:none; color:#8c98a6; cursor:default; }
-      details summary.unlocked-summary { pointer-events:auto; color:#007aff; cursor:pointer; }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPP Generator | EduLens</title>
 
-      #historyContainer { display:none; }
-      .history-entry {
-        background: linear-gradient(135deg,#ffffff,#f8fcff); padding:1.3rem; border-radius:16px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom:1.2rem; transition: transform 0.2s ease;
-      }
-      .history-entry:hover { transform: translateY(-3px); }
-      .history-entry strong { display:block; font-size:1rem; color:#222; margin-bottom:0.3rem; }
-      .history-entry small { color:#666; font-size:0.85rem; }
-      .history-actions { margin-top:0.6rem; display:flex; gap:0.7rem; }
-      .history-actions button { padding:0.5rem 1rem; font-size:0.9rem; font-weight:500; border-radius:8px; border:none; cursor:pointer; transition: background 0.2s; }
-      .history-actions .resume { background:#007aff; color:white; }
-      .history-actions .resume:hover { background:#0056cc; }
-      .history-actions .delete { background:#dc3545; color:white; }
-      .history-actions .delete:hover { background:#b52a38; }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
-      @media screen and (max-width:600px) {
-        .form-container { flex-direction:column; align-items:center; }
-        .form-container input, .form-container select, .form-container button { width:100%; }
-      }
-    </style>
-  </head>
-  <body>
-    <h1>🔥 DPP Generator</h1>
-    <div class="tabs">
-      <div class="tab active" onclick="showTab('generator')">📚 Generator</div>
-      <div class="tab" onclick="showTab('history')">📜 History</div>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: "Inter", sans-serif;
+      background: #f0f2f5; color: #111; padding: 2rem;
+    }
+    h1 { text-align: center; font-weight: 600; margin-bottom: 2rem; color: #1a1a1a; }
+
+    .tabs { display:flex; justify-content:center; margin-bottom:1.5rem; }
+    .tab {
+      margin:0 1rem; padding:0.5rem 1.5rem; border-radius:10px; cursor:pointer;
+      font-weight:600; color:#007aff; background:#fff; border:2px solid #007aff;
+      transition: all 0.3s ease;
+    }
+    .tab.active { background:#007aff; color:white; }
+
+    .form-container { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-bottom:2rem; }
+    .form-container input, .form-container select, .form-container button {
+      padding:0.7rem 1.2rem; font-size:1rem; border-radius:14px; border:1px solid #ccc;
+      background: rgba(255,255,255,0.8); transition:0.3s;
+    }
+    .form-container button {
+      background:#007aff; color:white; font-weight:bold; border:none;
+    }
+    .form-container button:hover { background:#005ecc; }
+
+    .summary-info { text-align:center; margin-bottom:1rem; font-size:1rem; color:#444; }
+
+    .question-card {
+      background:white; border-radius:18px; box-shadow:0 4px 20px rgba(0,0,0,0.08);
+      padding:1.8rem 2rem; margin-bottom:1.8rem; transition:0.2s;
+    }
+    .question-card:hover {
+      transform: translateY(-4px);
+      box-shadow:0 6px 25px rgba(0,0,0,0.1);
+    }
+
+    .question-number { font-size:1.3rem; font-weight:600; color:#333; margin-bottom:1rem; }
+    .question-text { font-size:1.05rem; color:#444; }
+
+    .answer-input {
+      width:100%; margin-top:1rem; padding:0.7rem; font-size:1rem;
+      border-radius:10px; border:1px solid #ccc;
+    }
+
+    .submit-btn {
+      margin-top:0.7rem; padding:0.6rem 1.2rem;
+      background:#28a745; color:white; font-weight:600; border:none;
+      border-radius:10px; cursor:pointer;
+    }
+    .submit-btn:hover { background:#218838; }
+
+    details summary {
+      cursor:pointer; font-weight:500; margin-top:1rem; color:#007aff;
+    }
+    summary.locked-summary { color:#777; pointer-events:none; }
+    summary.unlocked-summary { color:#007aff; pointer-events:auto; }
+
+    #historyContainer { display:none; }
+    .history-entry {
+      background:linear-gradient(135deg,#ffffff,#f8fcff); padding:1.3rem;
+      border-radius:16px; margin-bottom:1.2rem; box-shadow:0 4px 12px rgba(0,0,0,0.1);
+      transition:0.2s;
+    }
+    .history-entry:hover { transform: translateY(-3px); }
+    .history-actions { margin-top:0.6rem; display:flex; gap:0.7rem; }
+    .history-actions button { padding:0.5rem 1rem; border:none; border-radius:8px; cursor:pointer; }
+    .resume { background:#007aff; color:white; }
+    .delete { background:#dc3545; color:white; }
+
+    @media screen and (max-width:600px) {
+      .form-container { flex-direction:column; align-items:center; }
+      .form-container input, .form-container select, .form-container button { width:100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🔥 DPP Generator</h1>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('generator')">📚 Generator</div>
+    <div class="tab" onclick="showTab('history')">📜 History</div>
+  </div>
+
+  <div class="summary-info" id="summaryInfo"></div>
+
+  <div id="generatorContainer">
+    <div class="form-container">
+      <input type="text" id="topic" placeholder="Enter Topic" />
+      <select id="difficulty">
+        <option value="Medium">Select Difficulty (default: Medium)</option>
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
+      <button onclick="generateDPP()">Generate DPP</button>
     </div>
 
-    <div class="summary-info" id="summaryInfo">
-      <strong>Class:</strong> ? | <strong>Subject:</strong> ? |
-      <strong>Difficulty:</strong> <span id="summaryDifficulty">?</span> |
-      <strong>Questions:</strong> 10
-    </div>
+    <div id="questionContainer"></div>
+  </div>
 
-    <div id="generatorContainer">
-      <div class="form-container">
-        <input type="text" id="topic" placeholder="Enter Topic" required />
-        <select id="difficulty">
-          <option value="">Select Difficulty (default is Medium)</option>
-          <option value="Easy">Easy</option>
-          <option value="Medium">Medium</option>
-          <option value="Hard">Hard</option>
-        </select>
-        <button onclick="generateDPP()">Generate DPP</button>
-      </div>
-      <div id="questionContainer"></div>
-    </div>
+  <!-- HISTORY -->
+  <div id="historyContainer">
+    <div id="historyList"></div>
+  </div>
 
-    <div id="historyContainer"><div id="historyList"></div></div>
-
-    <script>
-      const queryParams = (() => {
-        const params = {};
-        window.location.search.substring(1).split("&").forEach((pair) => {
-          const [k, v] = pair.split("=");
-          params[decodeURIComponent(k)] = decodeURIComponent(v || "");
-        });
-        return params;
-      })();
-
-      const defaultQuestions = [
-        { question: "State the law of universal gravitation.", answer: "Every particle attracts every other particle with a force directly proportional to the product of their masses and inversely proportional to the square of the distance between them." },
-        { question: "Calculate the gravitational force between two 5 kg masses placed 2 m apart. (G = 6.67×10⁻¹¹ Nm²/kg²)", answer: "F = G * m1 * m2 / r² = 6.67×10⁻¹¹ * 5 * 5 / 4 = 4.16875 ×10⁻¹⁰ N" },
-        { question: "What is the acceleration due to gravity on the surface of Earth?", answer: "Approximately 9.8 m/s²" },
-        { question: "Explain why objects fall to the Earth when dropped.", answer: "Because Earth exerts a gravitational force on them pulling them towards its center." },
-        { question: "What happens to the gravitational force if the distance between two objects is doubled?", answer: "It becomes one-fourth of the original force, since F ∝ 1/r²." },
-        { question: "Define mass and weight.", answer: "Mass is the amount of matter in a body. Weight is the gravitational force acting on the body." },
-        { question: "Why do astronauts appear weightless in space?", answer: "Because they are in free fall, moving along with their spacecraft, so they experience no contact force." },
-        { question: "What is the value of G, the universal gravitational constant?", answer: "6.67 × 10⁻¹¹ N·m²/kg²" },
-        { question: "How does mass of an object affect the gravitational force it experiences?", answer: "Gravitational force is directly proportional to the mass of the object." },
-        { question: "Explain the term 'free fall'.", answer: "Motion of a body under the influence of gravity only, with no resistance from air or other forces." }
-      ];
-
-      document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("summaryInfo").innerHTML = `
-          <strong>Class:</strong> ${queryParams.class || "9"} |
-          <strong>Subject:</strong> ${queryParams.subject || "Science"} |
-          <strong>Difficulty:</strong> <span id="summaryDifficulty">${queryParams.difficulty || "Medium"}</span> |
-          <strong>Questions:</strong> 10
-        `;
-        loadHistory();
+  <script>
+    /* ------------------------------------
+       READ URL PARAMS
+    -------------------------------------*/
+    const queryParams = (() => {
+      const params = {};
+      window.location.search.substring(1).split("&").forEach((pair) => {
+        const [k, v] = pair.split("=");
+        params[decodeURIComponent(k)] = decodeURIComponent(v || "");
       });
+      return params;
+    })();
 
-      function generateDPP(topicParam, skipHistory = false) {
-        const topic = topicParam || document.getElementById("topic").value;
-        if (!topic) return alert("Please enter a topic.");
+    /* ------------------------------------
+       SUBJECT-WISE QUESTION BANK
+    -------------------------------------*/
+    const questionBank = {
+      science: [
+        { question: "State the law of universal gravitation.", answer: "Every particle attracts every other..." },
+        { question: "Define gravitational force.", answer: "A force of attraction between masses." },
+        { question: "What is acceleration due to gravity?", answer: "9.8 m/s² on Earth." },
+        { question: "What is free fall?", answer: "Motion under gravity alone." },
+        { question: "What happens if mass increases?", answer: "Gravitational force increases." },
+        { question: "What happens if distance doubles?", answer: "Force becomes one-fourth." },
+        { question: "Define weight.", answer: "Force with which Earth attracts a body." },
+        { question: "Define mass.", answer: "Amount of matter." },
+        { question: "Why do objects fall to Earth?", answer: "Due to Earth’s gravity." },
+        { question: "Why are astronauts weightless?", answer: "They are in free fall." }
+      ],
 
-        const classVal = queryParams.class || "9";
-        const subject = queryParams.subject || "Science";
-        const selectedDiff = document.getElementById("difficulty")?.value?.trim();
-        const difficulty = selectedDiff || queryParams.difficulty || "Medium";
-        const summaryDiff = document.getElementById("summaryDifficulty");
-        if (summaryDiff) summaryDiff.textContent = difficulty;
+      mathematics: [
+        { question: "Define a circle.", answer: "Set of all points equidistant from a point." },
+        { question: "Define radius.", answer: "Distance from center to any point on circle." },
+        { question: "Define diameter.", answer: "Longest chord passing through center." },
+        { question: "Define chord.", answer: "Line segment joining two points on circle." },
+        { question: "Define arc.", answer: "Part of circumference." },
+        { question: "Define sector.", answer: "Region bounded by two radii and arc." },
+        { question: "Define segment.", answer: "Region bounded by chord and arc." },
+        { question: "Area of circle?", answer: "πr²" },
+        { question: "Circumference of circle?", answer: "2πr" },
+        { question: "What is tangent?", answer: "Line touching circle at exactly one point." }
+      ],
 
-        const container = document.getElementById("questionContainer");
-        container.innerHTML = "<p>Loading questions...</p>";
+      sst: [
+        { question: "Who was Adolf Hitler?", answer: "Leader of Nazi Party, dictator of Germany." },
+        { question: "What is Nazism?", answer: "Ideology of racial superiority and dictatorship." },
+        { question: "When did Hitler become Chancellor?", answer: "1933" },
+        { question: "Name Hitler’s autobiography.", answer: "Mein Kampf" },
+        { question: "What was the Enabling Act?", answer: "Gave Hitler dictatorial powers." },
+        { question: "What was the Nazi ideology?", answer: "Aryan superiority, nationalism." },
+        { question: "What caused the rise of Hitler?", answer: "Economic crisis + propaganda." },
+        { question: "What was the Youth League?", answer: "Nazi training wing for children." },
+        { question: "What is propaganda?", answer: "Misleading info to influence people." },
+        { question: "What ended Hitler’s rule?", answer: "Germany’s defeat in WWII." }
+      ],
 
-        // Show default Gravitation questions only when button is clicked
-        showFallbackOutput(container, topic, subject, difficulty);
+      computers: [
+        { question: "What is Python?", answer: "A high-level programming language." },
+        { question: "What is a variable?", answer: "A container to store values." },
+        { question: "What is a loop?", answer: "Used for repeated execution." },
+        { question: "What is indentation in Python?", answer: "Spaces defining code blocks." },
+        { question: "What is a list?", answer: "Ordered collection of items." },
+        { question: "What is a function?", answer: "Block of reusable code." },
+        { question: "What is type casting?", answer: "Converting one datatype to another." },
+        { question: "What is a string?", answer: "Sequence of characters." },
+        { question: "What is print() used for?", answer: "Output text." },
+        { question: "What is input() used for?", answer: "Take user input." }
+      ]
+    };
+
+    /* ------------------------------------
+       PAGE INITIALIZE
+    -------------------------------------*/
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("summaryInfo").innerHTML = `
+        <strong>Class:</strong> ${queryParams.class || "9"} |
+        <strong>Subject:</strong> ${queryParams.subject || "Science"} |
+        <strong>Difficulty:</strong> ${queryParams.difficulty || "Medium"} |
+        <strong>Questions:</strong> 10
+      `;
+      loadHistory();
+    });
+
+    /* ------------------------------------
+       GENERATE DPP
+    -------------------------------------*/
+    function generateDPP() {
+      const subject = queryParams.subject?.toLowerCase() || "science";
+      const container = document.getElementById("questionContainer");
+      const questions = questionBank[subject] || [];
+
+      container.innerHTML = "";
+
+      questions.forEach((q, i) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+        card.innerHTML = `
+          <div class="question-number">Q${i + 1}.</div>
+          <div class="question-text">${escapeHtml(q.question)}</div>
+          <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
+          <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
+          <div class="response-text" id="response-${i}"></div>
+          <details id="details-${i}">
+            <summary class="locked-summary">Show Answer</summary>
+            <p>${escapeHtml(q.answer)}</p>
+          </details>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* ------------------------------------
+       ANSWER SUBMISSION
+    -------------------------------------*/
+    function submitAnswer(i) {
+      const inp = document.getElementById(`input-${i}`);
+      const resp = document.getElementById(`response-${i}`);
+      if (!inp.value.trim()) return alert("Please enter an answer.");
+      resp.textContent = "✅ Answer submitted";
+
+      const det = document.getElementById(`details-${i}`);
+      det.open = true;
+      det.querySelector("summary").classList.replace("locked-summary", "unlocked-summary");
+    }
+
+    /* ------------------------------------
+       HISTORY SYSTEM
+    -------------------------------------*/
+    function loadHistory() {
+      document.getElementById("historyList").innerHTML = "<p>History disabled for now.</p>";
+    }
+
+    function showTab(tab) {
+      document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+      if (tab === "history") {
+        document.getElementById("generatorContainer").style.display = "none";
+        document.getElementById("historyContainer").style.display = "block";
+        document.querySelector(".tab:nth-child(2)").classList.add("active");
+      } else {
+        document.getElementById("generatorContainer").style.display = "block";
+        document.getElementById("historyContainer").style.display = "none";
+        document.querySelector(".tab:nth-child(1)").classList.add("active");
       }
+    }
 
-      function showFallbackOutput(container, topic, subject, difficulty) {
-        container.innerHTML = "";
-        defaultQuestions.forEach((q, i) => {
-          const card = document.createElement("div");
-          card.className = "question-card";
-          card.innerHTML = `
-            <div class="question-number">Q${i + 1}.</div>
-            <div class="question-text">${escapeHtml(q.question)}</div>
-            <input class="answer-input" id="input-${i}" placeholder="Your answer here…">
-            <button class="submit-btn" onclick="submitAnswer(${i})">Submit Answer</button>
-            <div class="response-text" id="response-${i}"></div>
-            <details id="details-${i}">
-              <summary class="locked-summary">Show Answer</summary>
-              <p>${escapeHtml(q.answer)}</p>
-            </details>
-          `;
-          container.appendChild(card);
-        });
-      }
-
-      function submitAnswer(idx) {
-        const input = document.getElementById(`input-${idx}`);
-        const response = document.getElementById(`response-${idx}`);
-        if (!input.value.trim()) return alert("Enter an answer.");
-        response.textContent = "✅ Your answer submitted (check 'Show Answer' for solution)";
-        const det = document.getElementById(`details-${idx}`);
-        if (det) {
-          det.open = true;
-          const summ = det.querySelector("summary");
-          if (summ) summ.classList.replace("locked-summary", "unlocked-summary");
-        }
-      }
-
-      function loadHistory() {
-        const hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
-        const list = document.getElementById("historyList");
-        list.innerHTML = "";
-        const subjectFilter = (queryParams.subject || "").trim().toLowerCase() || null;
-
-        const filtered = hist
-          .map((item, idx) => ({ ...item, _origIdx: idx }))
-          .filter((item) => !subjectFilter || (item.subject || "").toLowerCase() === subjectFilter);
-
-        if (!filtered.length) {
-          list.innerHTML = subjectFilter
-            ? `<p>No history found for subject <strong>${escapeHtml(queryParams.subject)}</strong>.</p>`
-            : "<p>No history found.</p>";
-          return;
-        }
-
-        filtered.forEach((item, displayIndex) => {
-          const div = document.createElement("div");
-          div.className = "history-entry";
-          div.innerHTML = `
-            <strong>${displayIndex + 1}. Topic: ${escapeHtml(item.topic || "")}</strong>
-            <div class="dpp-info">
-              <div><span>Class:</span> ${escapeHtml(item.classVal || "")}</div>
-              <div><span>Subject:</span> ${escapeHtml(item.subject || "")}</div>
-              <div><span>Difficulty:</span> ${escapeHtml(item.difficulty || "")}</div>
-            </div>
-            <small>${escapeHtml(item.date || "")}</small>
-            <div class="history-actions">
-              <button class="resume" onclick="resumeHistory(${item._origIdx})">🔄 Resume</button>
-              <button class="delete" onclick="deleteHistory(${item._origIdx})">🗑️ Delete</button>
-            </div>
-          `;
-          list.appendChild(div);
-        });
-      }
-
-      function resumeHistory(originalIndex) {
-        const hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
-        const item = hist[originalIndex];
-        if (!item) return alert("History item not found.");
-        document.getElementById("topic").value = item.topic || "";
-        const diffSelect = document.getElementById("difficulty");
-        if (diffSelect && item.difficulty) {
-          const val = Array.from(diffSelect.options).find(
-            o => (o.value || "").toLowerCase() === (item.difficulty || "").toLowerCase()
-          );
-          if (val) diffSelect.value = val.value;
-        }
-        showTab("generator");
-        generateDPP(item.topic, true);
-      }
-
-      function deleteHistory(originalIndex) {
-        let hist = JSON.parse(localStorage.getItem("dppHistory") || "[]");
-        if (originalIndex >= 0 && originalIndex < hist.length) {
-          hist.splice(originalIndex, 1);
-          localStorage.setItem("dppHistory", JSON.stringify(hist));
-        }
-        loadHistory();
-      }
-
-      function showTab(tab) {
-        document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
-        if (tab === "history") {
-          document.getElementById("generatorContainer").style.display = "none";
-          document.getElementById("historyContainer").style.display = "block";
-          document.querySelector(".tab:nth-child(2)").classList.add("active");
-          loadHistory();
-        } else {
-          document.getElementById("generatorContainer").style.display = "block";
-          document.getElementById("historyContainer").style.display = "none";
-          document.querySelector(".tab:nth-child(1)").classList.add("active");
-        }
-      }
-
-      function escapeHtml(str) {
-        if (str === null || str === undefined) return "";
-        return String(str)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
-    </script>
-  </body>
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+  </script>
+</body>
 </html>
